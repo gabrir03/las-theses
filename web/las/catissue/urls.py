@@ -21,4 +21,5 @@ urlpatterns = patterns('',
      (r'^funnel/', include('funnel.urls')),
      (r'^symphogen/', include('symphogen.urls')),
      (r'^motricolor/', include('motricolor.urls')),
+     (r'^dashboard/', include('dashboard.urls')),
 )

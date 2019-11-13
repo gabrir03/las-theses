@@ -173,6 +173,7 @@ INSTALLED_APPS = (
     'funnel',
     'symphogen',
     'motricolor',
+    'dashboard'
 )
 
 #TEMPLATE_CONTEXT_PROCESSORS = (

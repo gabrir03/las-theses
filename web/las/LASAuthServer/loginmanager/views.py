@@ -3119,3 +3119,22 @@ def privacyView(request):
 
 def helpdesk(request):
     return redirect(settings.HELPDESK)
+
+
+def dashboardHome(request):
+    try:
+        user = request.user
+        luser = LASUser.objects.get(pk=user.id)
+
+    except Exception,e:
+        print e
+        return HttpResponseRedirect(reverse("loginmanager.views.logout"))
+    
+    name = user.username
+    url = ''
+    for m in luser.modules.filter(name = 'Biobank'):
+            if m.name == 'Biobank':
+                url = m.home_url
+    
+    url = url + 'dashboard/home'
+    return redirect(url)

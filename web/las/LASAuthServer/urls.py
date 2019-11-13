@@ -35,6 +35,8 @@ urlpatterns = patterns('',
     url(r'^helpdesk/$', 'loginmanager.views.helpdesk'),
     
 
+    url(r'^dashboard/$', 'loginmanager.views.dashboardHome'),
+
     
     url(r'^saveUserPermissions/$', 'loginmanager.views.saveUserPermissions'),        
     url(r'^saveUserModules/$', 'loginmanager.views.saveUserModules'),    

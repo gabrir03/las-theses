@@ -1,0 +1,55 @@
+{% extends "baseDH.html" %}
+{% block title %}Dashboard{% endblock %}
+
+
+{% block content %}
+	{% if not errore %}
+		<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}style-menu.css" />
+		<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}dashboard/css/dashboard.css" />
+
+		<!-- <div class="container">
+			<p>Prova Bootstrap</p>
+			<button class="btn btn-primary">Test</button>
+		</div> -->
+		<div class="px-5  py-3">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-6">
+									<div class="panel  panel-default">
+											<div class="panel-heading"> Aliquot Derivation Schedule </div>
+											<div class="panel-body">
+													<button class="btn btn-primary"> {{cntAliqDer}} </button>
+											</div>
+									</div>
+							</div>
+							<div class="col-6">
+									<div class="panel  panel-default">
+											<div class="panel-heading"> Aliquot Split Schedule </div>
+											<div class="panel-body">
+													<button class="btn btn-success"> 10 </button>
+											</div>
+									</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel  panel-default">
+							<div class="panel-heading">
+								Tabella link vari
+							</div>
+							<div class="panel-body">
+								Body Tabella link vari
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+
+	
+		<br style="clear:both;"><br><br><br>
+
+	{% else %}
+		<h1 align="center">Error: something went wrong</h1>
+	{% endif %}
+{% endblock %}

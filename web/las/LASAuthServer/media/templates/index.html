@@ -38,7 +38,8 @@ jQuery(document).ready(function(){
 			    <li target='{{m.shortname}}'>{{m.title}}</li>     
 			    {% endif %}
 			{% endfor %} 		
-	             
+
+			<li url='{% url loginmanager.views.dashboardHome %}'>Dashboard</li> <!-- Da capire come richiamare la dashboard da questo modulo -->
 			<li target='usermanager'>Profile & Tutorial</li>
 			<li url='{% url loginmanager.views.helpdesk %}'>HelpDesk</li>
 	        </nav>
