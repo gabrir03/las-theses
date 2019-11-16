@@ -7,12 +7,7 @@ from utils import *
 # @permission_decorator('tissue.can_view_BBM_dashboard')
 def dashboardHome(request):
     try:
-        # if request.method=='POST':
-        #     print request.POST
-            # form = CollectionFunnelForm(request.POST)
-        # else:
-            # form = CollectionFunnelForm()
-        name=request.user.username
+        name = request.user.username
         print 'name', name
 
         # lista_der=AliquotDerivationSchedule.objects.all()
@@ -37,13 +32,34 @@ def dashboardHome(request):
         allDerAliq = getAllAliquotDerivationSchedule(name)
         print 'All Aliquots', allDerAliq
 
+        listIndex = 0
         cntAliqDer = 0
+        cntStep1 = 0
+        cntStep2 = 0
+        cntStep3 = 0
+        cntStep4 = 0
         for aliq in allDerAliq:
+            if listIndex == 0:
+                cntStep1 = len(aliq)
+            
+            if listIndex == 1:
+                cntStep2 = len(aliq)
+            
+            if listIndex == 2:
+                cntStep3 = len(aliq)
+            
+            if listIndex == 3:
+                cntStep4 = len(aliq)
+
             cntAliqDer += len(aliq)
+            listIndex += 1 
 
         print 'All Aliquots Number', cntAliqDer
 
-        variables = RequestContext(request, {'form': True, 'cntAliqDer':cntAliqDer, 'MEDIA_DASHBOARD_URL':MEDIA_DASHBOARD_URL})
+        mdamData = getMDAMData()
+        print 'MDAM Data', mdamData
+
+        variables = RequestContext(request, {'form':True, 'cntAliqDer':cntAliqDer, 'cntStep1':cntStep1, 'cntStep2':cntStep2, 'cntStep3':cntStep3, 'cntStep4':cntStep4})
         return render_to_response('indexDH.html',variables)
     except Exception,e:
         print 'errore',e

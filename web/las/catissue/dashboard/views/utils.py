@@ -27,6 +27,7 @@ def getAllMdamTemplates ():
     res=ast.literal_eval(res)
     return res
 
+
 def getMdamTemplates (templateList):
     mdamUrl = Urls.objects.get(idWebService=WebService.objects.get(name='MDAM').id)
     url = mdamUrl.url + '/api/describetemplate/'
@@ -41,6 +42,36 @@ def getMdamTemplates (templateList):
         res=ast.literal_eval(res)
         templates.append(res)
     return templates
+
+
+def getMDAMData():
+    wg = list(get_WG())
+    mdamUrl = Urls.objects.get(idWebService=WebService.objects.get(name='MDAM').id)
+    url = mdamUrl.url + "/api/runtemplate/"
+
+    values_to_send = {'template_id':56}
+    print 'values_to_send',values_to_send
+    data = urllib.urlencode(values_to_send)
+    try:
+        u = urllib2.urlopen(url, data)
+    except Exception, e:
+        print e
+        print "An error occurred while trying to retrieve data from "+str(url)   
+
+    res=u.read()
+    result=json.loads(res)
+    
+    resSet = []
+    for x in result['body']:
+        for obj in x:
+            resSet.append(obj)
+    #     g = GenealogyID(x[1]) # x[1] genid
+    #     resSet[g.getGenID()] = ''
+    #     if len(x[8][0]):
+    #         resSet[g.getGenID()] = x[8][0][0][0] 
+       
+    return resSet
+
 
 def getAllAliquotDerivationSchedule (name):
     liste = []

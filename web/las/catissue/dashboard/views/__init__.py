@@ -34,8 +34,6 @@ from catissue.api.handlers import CheckPatientHandler
 from utils import *
 from views_dashboard import *
 
-MEDIA_DASHBOARD_URL = '/dashboard/templates/media/'
-
 class ErrorDerived(Exception):
     def __init__(self, value):
         self.value = value
