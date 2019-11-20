@@ -49,6 +49,7 @@ def getMDAMData():
     mdamUrl = Urls.objects.get(idWebService=WebService.objects.get(name='MDAM').id)
     url = mdamUrl.url + "/api/runtemplate/"
 
+    ''' Split not executed template '''
     values_to_send = {'template_id':56}
     print 'values_to_send',values_to_send
     data = urllib.urlencode(values_to_send)
@@ -62,9 +63,10 @@ def getMDAMData():
     result=json.loads(res)
     
     resSet = []
-    for x in result['body']:
-        for obj in x:
-            resSet.append(obj)
+    for x in result['body']: # Object
+        resSet.append(x) # Vettore di aliquot split schedule
+        # for obj in x: # Singolo record della query
+            # resSet.append(obj)
     #     g = GenealogyID(x[1]) # x[1] genid
     #     resSet[g.getGenID()] = ''
     #     if len(x[8][0]):

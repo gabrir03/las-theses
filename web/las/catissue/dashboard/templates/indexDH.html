@@ -15,9 +15,13 @@
 			aliqStep3 = "{{cntStep3}}"; 
 			aliqStep4 = "{{cntStep4}}";
 			urlStep1 = "{% url tissue.derived.ExecDerivedAliquots %}";
+			urlStep2 = "{% url tissue.derived.LoadKitDerivedAliquots %}";
+			urlStep3 = "{% url tissue.derived.LoadDetailsDerivedAliquots2 %}";
+			urlStep4 = "{% url tissue.derived.LoadLastPartDerivedAliquots %}";
+			aliqSplit = "{{cntSplit}}";
+			urlSplit = "{% url tissue.split.ExecSplitAliquots %}";
 			// templates = $.parseJSON('{{mdamTemplates|safe}}');
 			// mdam_url = "{{mdam_url}}";
-			// genid = $.parseJSON('{{genid|safe}}');
 		</script>
 		
 		<div class="px-5  py-3">
@@ -26,7 +30,7 @@
 						<div class="pb-3  row">
 							<div class="col-sm-4  pb-3  pb-sm-0">
 								<div class="p-3  panel  panel-default">
-									<div class="p-3  panel-heading"> Aliquot Derivation Schedule </div>
+									<div class="p-3  panel-heading  text-center"> Aliquot Derivation Schedule </div>
 									<div class="px-3  py-2  panel-body">
 										<button class="btn btn-primary" id="aliqDer"> {{cntAliqDer}} </button>
 									</div>
@@ -34,15 +38,15 @@
 							</div>
 							<div class="col-sm-4">
 								<div class="p-3  panel  panel-default">
-									<div class="p-3  panel-heading"> Aliquot Split Schedule </div>
+									<div class="p-3  panel-heading  text-center"> Aliquot Split Schedule </div>
 									<div class="px-3  py-2  panel-body">
-										<button class="btn btn-success" id="aliqSplit"> 10 </button>
+										<button class="btn btn-primary" id="aliqSplit"> {{cntSplit}} </button>
 									</div>
 								</div>
 							</div>
 							<div class="col-sm-4">
 								<div class="p-3  panel  panel-default">
-									<div class="p-3  panel-heading"> Aliquot Slide Labelling </div>
+									<div class="p-3  panel-heading  text-center"> Aliquot Slide Labelling </div>
 									<div class="px-3  py-2  panel-body">
 										<button class="btn btn-success" id="aliqSlideLab"> 3 </button>
 									</div>
@@ -53,7 +57,7 @@
 						<div class="pb-3  row">
 							<div class="col-sm-4">
 								<div class="p-3  panel  panel-default">
-									<div class="p-3  panel-heading"> Aliquot Slide Preparation </div>
+									<div class="p-3  panel-heading  text-center"> Aliquot Slide Preparation </div>
 									<div class="px-3  py-2  panel-body">
 										<button class="btn btn-success" id="aliqSlidePrep"> 5 </button>
 									</div>
@@ -61,7 +65,7 @@
 							</div>
 							<div class="col-sm-4">
 								<div class="p-3  panel  panel-default">
-									<div class="p-3  panel-heading"> Aliquot QC/QA </div>
+									<div class="p-3  panel-heading  text-center"> Aliquot QC/QA </div>
 									<div class="px-3  py-2  panel-body">
 										<button class="btn btn-success" id="aliqQcQa"> 6 </button>
 									</div>
@@ -69,7 +73,7 @@
 							</div>
 							<div class="col-sm-4">
 								<div class="p-3  panel  panel-default">
-									<div class="p-3  panel-heading"> Aliquot Transfer </div>
+									<div class="p-3  panel-heading  text-center"> Aliquot Transfer </div>
 									<div class="px-3  py-2  panel-body">
 										<button class="btn btn-success" id="aliqTransfer"> 1 </button>
 									</div>
@@ -79,11 +83,12 @@
 					</div>
 					<div class="col-4">
 						<div class="p-3  panel  panel-default">
-							<div class="p-3  panel-heading" id="tableHeader">
-								Tabella link vari
+							<div class="p-3  panel-heading  text-center" id="tableHeader">
+								Select data to display
 							</div>
+							<hr class="m-0">
 							<div class="p-3  panel-body" id="tableBody">
-								Body Tabella link vari
+								<!-- Body Tabella link vari -->
 							</div>
 						</div>
 					</div>

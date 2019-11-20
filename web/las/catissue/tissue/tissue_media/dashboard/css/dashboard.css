@@ -1,4 +1,8 @@
 
+.btn-redirect {
+    min-width: 100px;
+}
+
 .panel {
     background-color: #fff;
     border: 1px solid transparent;

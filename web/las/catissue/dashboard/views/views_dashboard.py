@@ -58,8 +58,10 @@ def dashboardHome(request):
 
         mdamData = getMDAMData()
         print 'MDAM Data', mdamData
+        cntSplit = len(mdamData)
 
-        variables = RequestContext(request, {'form':True, 'cntAliqDer':cntAliqDer, 'cntStep1':cntStep1, 'cntStep2':cntStep2, 'cntStep3':cntStep3, 'cntStep4':cntStep4})
+        variables = RequestContext(request, {'form':True, 'cntAliqDer':cntAliqDer, 'cntStep1':cntStep1, 'cntStep2':cntStep2, 'cntStep3':cntStep3,
+                                            'cntStep4':cntStep4, 'cntSplit':cntSplit})
         return render_to_response('indexDH.html',variables)
     except Exception,e:
         print 'errore',e
