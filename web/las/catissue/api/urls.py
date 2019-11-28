@@ -3,6 +3,7 @@ from piston.resource import Resource
 from piston.authentication import HttpBasicAuthentication
 from catissue.api.handlers import *
 from catissue.api.query import *
+from catissue.api.dashboard import *
 
 class CsrfExemptResource(Resource):
     """A Custom Resource that is csrf exempt"""
@@ -127,6 +128,11 @@ save_blocks_h=CsrfExemptResource(SaveBlocks)
 save_derived_h=CsrfExemptResource(SaveDerived)
 transfer_vials_h=CsrfExemptResource(TransferVials)
 
+aliquotDerivation_h=Resource(AliquotDerivationHandler)
+aliquotSplit_h=Resource(AliquotSplitHandler)
+aliquotSlideLab_h=Resource(AliquotSlideLabHandler)
+aliquotSlidePrep_h=Resource(AliquotSlidePrepHandler)
+
 urlpatterns = patterns('',
 #url(r'^place/$', place_h),                       
 #url(r'^place/(?P<parameters>[A-Za-z&=0-9 ]+)$', place_h),
@@ -249,4 +255,10 @@ url(r'^shareAliquots/$',shareAliquots_h),
 url(r'^blocks/$', save_blocks_h),
 url(r'^derivedsamples/$', save_derived_h),
 url(r'^vials/$', transfer_vials_h),
+
+# dashboard
+url(r'^dhbd/aliquot_derivation/(?P<nome>[\w|\W]+)$', aliquotDerivation_h),
+url(r'^dhbd/aliquot_split/(?P<nome>[\w|\W]+)$', aliquotSplit_h),
+url(r'^dhbd/aliquot_slideLab/(?P<nome>[\w|\W]+)$', aliquotSlideLab_h),
+url(r'^dhbd/aliquot_slidePrep/(?P<nome>[\w|\W]+)$', aliquotSlidePrep_h),
 )

@@ -1,0 +1,123 @@
+from piston.handler import BaseHandler
+from piston.handler import AnonymousBaseHandler
+from catissue.tissue.models import *
+from django.core import serializers
+from django.db import models
+from django.http import HttpResponse
+from django.db.models import Q
+import string
+import operator,random
+from catissue.api.utils import *
+from catissue.tissue.utils import *
+import datetime
+import urllib, urllib2, json,ast,requests
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import auth
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import send_mail, EmailMultiAlternatives
+from itertools import chain
+from django.utils.decorators import method_decorator
+from catissue.apisecurity.decorators import get_functionality_decorator
+from dateutil.relativedelta import *
+from catissue.global_request_middleware import *
+import inspect
+from catissue import tissue
+from piston.utils import rc
+from urllib2 import HTTPError
+from django.utils import timezone
+
+# per aliquote in derivazione
+class AliquotDerivationHandler(BaseHandler):
+    allowed_methods = ('GET', 'POST')
+    @method_decorator(get_functionality_decorator)
+    def read(self, request, nome):
+        try:
+            disable_graph()
+            lista1=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&Q(loadQuantity=None)&Q(idKit=None)&Q(deleteTimestamp=None)).order_by('id')
+            lista2=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idKit=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            lista3=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            lista4=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(initialDate=None)&Q(measurementExecuted=1)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            enable_graph()
+            liskitsi=[]
+            for aliq in lista2:
+                if aliq.idDerivationProtocol.idKitType!=None:
+                    liskitsi.append(aliq)
+            
+            #devo filtrare ancora per togliere quelli che non hanno un kit, ma che dovrebbero averlo
+            lisfin=[]
+            for aliq in lista3:
+                if aliq.idKit!=None or aliq.idDerivationProtocol.idKitType==None:
+                    lisfin.append(aliq)
+            
+            liste = []
+            liste.append(len(lista1))
+            liste.append(len(liskitsi))
+            liste.append(len(lisfin))
+            liste.append(len(lista4))
+            return json.dumps(liste)
+        except Exception, e:
+            print 'err',e
+            return 'errore'
+
+# per aliquote in split
+class AliquotSplitHandler(BaseHandler):
+    allowed_methods = ('GET', 'POST')
+    @method_decorator(get_functionality_decorator)
+    def read(self, request, nome):
+        try:
+            wg = list(get_WG())
+            mdamUrl = Urls.objects.get(idWebService=WebService.objects.get(name='MDAM').id)
+            url = mdamUrl.url + "/api/runtemplate/"
+            ''' Split not executed template '''
+            values_to_send = {'template_id':56}
+            data = urllib.urlencode(values_to_send)
+
+            try:
+                u = urllib2.urlopen(url, data)
+            except Exception, e:
+                print e
+                print "An error occurred while trying to retrieve data from "+str(url)
+                return 'errore'
+
+            res=u.read()
+            result=json.loads(res)
+            
+            resSet = []
+            for x in result['body']: # Object
+                resSet.append(x) # Vettore di aliquot split schedule
+
+            return json.dumps(len(resSet))
+        except Exception, e:
+            print 'err',e
+            return 'errore'
+
+# per aliquote in slide labelling
+class AliquotSlideLabHandler(BaseHandler):
+    allowed_methods = ('GET', 'POST')
+    @method_decorator(get_functionality_decorator)
+    def read(self, request, nome):
+        try:
+            operat=User.objects.get(username=nome)
+            disable_graph()
+            lista=AliquotLabelSchedule.objects.filter(Q(executed=0)&Q(fileInserted=0)&Q(Q(operator=operat)|Q(operator=None))&Q(deleteTimestamp=None))
+            enable_graph()
+            return json.dumps(len(lista))
+        except Exception, e:
+            print 'error', e
+            return 'errore'
+
+# per aliquote in slide preparation
+class AliquotSlidePrepHandler(BaseHandler):
+    allowed_methods = ('GET', 'POST')
+    @method_decorator(get_functionality_decorator)
+    def read(self, request, nome):
+        try:
+            operatore=User.objects.get(username=nome)
+            disable_graph()
+            lista=AliquotSlideSchedule.objects.filter(Q(executed=0)&Q(Q(operator=operatore)|Q(operator=None))&Q(deleteTimestamp=None))
+            enable_graph()
+            return json.dumps(len(lista))
+        except Exception, e:
+            print 'error', e
+            return 'errore'

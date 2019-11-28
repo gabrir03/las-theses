@@ -3122,19 +3122,20 @@ def helpdesk(request):
 
 
 def dashboardHome(request):
-    try:
-        user = request.user
-        luser = LASUser.objects.get(pk=user.id)
+    # try:
+    #     user = request.user
+    #     luser = LASUser.objects.get(pk=user.id)
 
-    except Exception,e:
-        print e
-        return HttpResponseRedirect(reverse("loginmanager.views.logout"))
+    # except Exception,e:
+    #     print e
+    #     return HttpResponseRedirect(reverse("loginmanager.views.logout"))
     
-    name = user.username
-    url = ''
-    for m in luser.modules.filter(name = 'Biobank'):
-            if m.name == 'Biobank':
-                url = m.home_url
+    # name = user.username
+    # url = ''
+    # for m in luser.modules.filter(name = 'Biobank'):
+    #         if m.name == 'Biobank':
+    #             url = m.home_url
     
-    url = url + 'dashboard/home'
+    # url = url + 'dashboard/home'
+    url = '/las/dashboard/home'
     return redirect(url)

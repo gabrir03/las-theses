@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'mercuric',
     'cookieMiddleware',
     'captcha',
+    'dashboard'
 )
 
 # A sample logging configuration. The only tangible logging
