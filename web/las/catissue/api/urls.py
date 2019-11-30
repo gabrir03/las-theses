@@ -132,6 +132,8 @@ aliquotDerivation_h=Resource(AliquotDerivationHandler)
 aliquotSplit_h=Resource(AliquotSplitHandler)
 aliquotSlideLab_h=Resource(AliquotSlideLabHandler)
 aliquotSlidePrep_h=Resource(AliquotSlidePrepHandler)
+aliquotRevalue_h=Resource(AliquotRevalueHandler)
+aliquotTransfer_h=Resource(AliquotTransferHandler)
 
 urlpatterns = patterns('',
 #url(r'^place/$', place_h),                       
@@ -261,4 +263,6 @@ url(r'^dhbd/aliquot_derivation/(?P<nome>[\w|\W]+)$', aliquotDerivation_h),
 url(r'^dhbd/aliquot_split/(?P<nome>[\w|\W]+)$', aliquotSplit_h),
 url(r'^dhbd/aliquot_slideLab/(?P<nome>[\w|\W]+)$', aliquotSlideLab_h),
 url(r'^dhbd/aliquot_slidePrep/(?P<nome>[\w|\W]+)$', aliquotSlidePrep_h),
+url(r'^dhbd/aliquot_revalue$', aliquotRevalue_h),
+url(r'^dhbd/aliquot_transfer/(?P<nome>[\w|\W]+)$', aliquotTransfer_h),
 )

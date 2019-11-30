@@ -67,4 +67,28 @@ $(document).ready(function() {
         $('#tableBody').html(htmlString);
         startRedirectButtons();
     });
+    
+    $('#aliqQcQa').click(function() {
+        $('#tableHeader').html('Aliquot ready for performing QC/QA');
+        var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
+                            <label>Nr. aliquots: ' + aliqRevalue + '</label> &nbsp;\
+                            <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlRevalue  + ' value="View">View</button>\
+                        </div>';
+        $('#tableBody').html(htmlString);
+        startRedirectButtons();
+    });
+
+    $('#aliqTransfer').click(function() {
+        $('#tableHeader').html('Aliquot for transfering');
+        var htmlString = '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
+                            <label>Nr. aliquots pending for tranfer: ' + aliqTransfer + '</label> &nbsp;\
+                            <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlTransfer + ' value="View">View</button>\
+                        </div>\
+                        <div class="align-items-center  d-flex  justify-content-between  py-3">\
+                            <label>Nr. aliquots to receive: ' + aliqReceive + '</label> &nbsp;\
+                            <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlReceive  + ' value="View">View</button>\
+                        </div>';
+        $('#tableBody').html(htmlString);
+        startRedirectButtons();
+    });
 });

@@ -121,3 +121,36 @@ class AliquotSlidePrepHandler(BaseHandler):
         except Exception, e:
             print 'error', e
             return 'errore'
+
+# per aliquote in QC QA
+class AliquotRevalueHandler(BaseHandler):
+    allowed_methods = ('GET', 'POST')
+    @method_decorator(get_functionality_decorator)
+    def read(self, request):
+        try:
+            disable_graph()
+            lista=AliquotQualitySchedule.objects.filter(revaluationExecuted=0, deleteTimestamp=None)
+            enable_graph()
+            return json.dumps(len(lista))
+        except Exception, e:
+            print 'error', e
+            return 'errore'
+
+# per aliquote in trasferimento
+class AliquotTransferHandler(BaseHandler):
+    allowed_methods = ('GET', 'POST')
+    @method_decorator(get_functionality_decorator)
+    def read(self, request, nome):
+        try:
+            operatore=User.objects.get(username=nome)
+            disable_graph()
+            transfer_list = Transfer.objects.filter(Q(Q(operator=operatore)|Q(operator=None))&Q(deleteOperator=None)&Q(departureExecuted=0))
+            receive_list = Transfer.objects.filter(addressTo=operatore,deleteOperator=None,departureExecuted=1,deliveryExecuted=0)
+            enable_graph()
+            lista = []
+            lista.append(len(transfer_list))
+            lista.append(len(receive_list))
+            return json.dumps(lista)
+        except Exception, e:
+            print 'error', e
+            return 'errore'

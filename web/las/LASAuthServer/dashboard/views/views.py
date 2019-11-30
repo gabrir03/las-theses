@@ -60,10 +60,43 @@ def home(request):
         if res == 'errore':
             raise Exception('Error in get aliquot slide prep')
 
+        # biobank/api/dhbd/aliquot_slidePrep/
+        url = baseUrl + '/aliquot_revalue'
+        req = urllib2.Request(url)
+        u = urllib2.urlopen(req)
+        res=u.read()
+        
+        print 'res revalue ' + res
+        cntRevalue = res.replace('"', '')
+
+        if res == 'errore':
+            raise Exception('Error in get aliquot revalue')
+
+        # biobank/api/dhbd/aliquot_transfer/
+        url = baseUrl + '/aliquot_transfer/' + name
+        req = urllib2.Request(url)
+        u = urllib2.urlopen(req)
+        res=u.read()
+        print 'res transfer ' + res
+
+        if res == 'errore':
+            raise Exception('Error in get aliquot transfer')
+
+        test_string = res.replace('"[', '')
+        res = test_string.replace(']"', '')
+        test_string = res.replace(' ', '')
+
+        transfer_array = [int(s) for s in test_string.split(',')]
+
+        totAliqTransfer = 0
+        for cnt in transfer_array:
+            totAliqTransfer += cnt
+
 
         variables = RequestContext(request, {'form':True, 'cntAliqDer':totAliqDer, 'cntStep1':der_array[0], 'cntStep2':der_array[1],
                                             'cntStep3':der_array[2], 'cntStep4':der_array[3], 'cntSplit':cntSplit, 'cntSlideLab':cntSlideLab,
-                                            'cntSlidePrep':cntSlidePrep})
+                                            'cntSlidePrep':cntSlidePrep, 'cntRevalue':cntRevalue, 'cntAliqTransfer':totAliqTransfer,
+                                            'aliqTransfer':transfer_array[0], 'aliqReceive':transfer_array[1]})
         return render_to_response('indexDashboard.html', variables)
 
     except Exception,e:

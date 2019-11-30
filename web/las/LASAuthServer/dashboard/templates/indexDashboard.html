@@ -24,7 +24,13 @@
             urlSlideLab = "/biobank/label/execute";
             aliqSlidePrep = "{{cntSlidePrep}}";
             urlSlidePrep = "/biobank/slide/choose";
-
+            aliqRevalue = "{{cntRevalue}}";
+            urlRevalue = "/biobank/revalue/execute";
+            aliqTransfer = "{{aliqTransfer}}";
+            aliqReceive = "{{aliqReceive}}";
+            urlTransfer = "/biobank/transfer/pending";
+            urlReceive = "/biobank/transfer/receive";
+            
             // templates = $.parseJSON('{{mdamTemplates|safe}}');
             // mdam_url = "{{mdam_url}}";
         </script>
@@ -72,7 +78,7 @@
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Aliquot QC/QA </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-success" id="aliqQcQa"> 6 </button>
+                                    <button class="btn btn-primary  btn-dashboard" id="aliqQcQa"> {{cntRevalue}} </button>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +86,7 @@
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Aliquot Transfer </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-success" id="aliqTransfer"> 1 </button>
+                                    <button class="btn btn-primary  btn-dashboard" id="aliqTransfer"> {{cntAliqTransfer}} </button>
                                 </div>
                             </div>
                         </div>
