@@ -55,10 +55,11 @@ class AliquotDerivationHandler(BaseHandler):
             liste.append(len(liskitsi))
             liste.append(len(lisfin))
             liste.append(len(lista4))
-            return json.dumps(liste)
+            # return json.dumps(liste)
+            return {'data':liste}
         except Exception, e:
             print 'err',e
-            return 'errore'
+            return {'data':'errore'}
 
 # per aliquote in split
 class AliquotSplitHandler(BaseHandler):
@@ -87,10 +88,11 @@ class AliquotSplitHandler(BaseHandler):
             for x in result['body']: # Object
                 resSet.append(x) # Vettore di aliquot split schedule
 
-            return json.dumps(len(resSet))
+            # return json.dumps(len(resSet))
+            return {'data':len(resSet)}
         except Exception, e:
             print 'err',e
-            return 'errore'
+            return {'data':'errore'}
 
 # per aliquote in slide labelling
 class AliquotSlideLabHandler(BaseHandler):
@@ -102,10 +104,11 @@ class AliquotSlideLabHandler(BaseHandler):
             disable_graph()
             lista=AliquotLabelSchedule.objects.filter(Q(executed=0)&Q(fileInserted=0)&Q(Q(operator=operat)|Q(operator=None))&Q(deleteTimestamp=None))
             enable_graph()
-            return json.dumps(len(lista))
+            # return json.dumps(len(lista))
+            return {'data':len(lista)}
         except Exception, e:
             print 'error', e
-            return 'errore'
+            return {'data':'errore'}
 
 # per aliquote in slide preparation
 class AliquotSlidePrepHandler(BaseHandler):
@@ -117,10 +120,11 @@ class AliquotSlidePrepHandler(BaseHandler):
             disable_graph()
             lista=AliquotSlideSchedule.objects.filter(Q(executed=0)&Q(Q(operator=operatore)|Q(operator=None))&Q(deleteTimestamp=None))
             enable_graph()
-            return json.dumps(len(lista))
+            # return json.dumps(len(lista))
+            return {'data':len(lista)}
         except Exception, e:
             print 'error', e
-            return 'errore'
+            return {'data':'errore'}
 
 # per aliquote in QC QA
 class AliquotRevalueHandler(BaseHandler):
@@ -131,10 +135,11 @@ class AliquotRevalueHandler(BaseHandler):
             disable_graph()
             lista=AliquotQualitySchedule.objects.filter(revaluationExecuted=0, deleteTimestamp=None)
             enable_graph()
-            return json.dumps(len(lista))
+            # return json.dumps(len(lista))
+            return {'data':len(lista)}
         except Exception, e:
             print 'error', e
-            return 'errore'
+            return {'data':'errore'}
 
 # per aliquote in trasferimento
 class AliquotTransferHandler(BaseHandler):
@@ -150,7 +155,8 @@ class AliquotTransferHandler(BaseHandler):
             lista = []
             lista.append(len(transfer_list))
             lista.append(len(receive_list))
-            return json.dumps(lista)
+            # return json.dumps(lista)
+            return {'data':lista}
         except Exception, e:
             print 'error', e
-            return 'errore'
+            return {'data':'errore'}

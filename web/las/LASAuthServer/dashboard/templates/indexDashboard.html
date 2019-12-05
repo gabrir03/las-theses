@@ -10,83 +10,84 @@
 
 	{% if not errore %}
         <script type="text/javascript"> 
-            aliqStep1 = "{{cntStep1}}"; 
-            aliqStep2 = "{{cntStep2}}"; 
-            aliqStep3 = "{{cntStep3}}"; 
-            aliqStep4 = "{{cntStep4}}";
-            urlStep1 = "/biobank/derived/execute";
-            urlStep2 = "/biobank/derived/execute/loadkit";
-            urlStep3 = "/biobank/derived/execute/loaddetailspart2";
-            urlStep4 = "/biobank/derived/execute/loadlastpart";
-            aliqSplit = "{{cntSplit}}";
-            urlSplit = "/biobank/split/execute";
-            aliqSlideLab = "{{cntSlideLab}}";
-            urlSlideLab = "/biobank/label/execute";
-            aliqSlidePrep = "{{cntSlidePrep}}";
-            urlSlidePrep = "/biobank/slide/choose";
-            aliqRevalue = "{{cntRevalue}}";
-            urlRevalue = "/biobank/revalue/execute";
-            aliqTransfer = "{{aliqTransfer}}";
-            aliqReceive = "{{aliqReceive}}";
-            urlTransfer = "/biobank/transfer/pending";
-            urlReceive = "/biobank/transfer/receive";
+            // aliqStep1 = "{{cntStep1}}"; 
+            // aliqStep2 = "{{cntStep2}}"; 
+            // aliqStep3 = "{{cntStep3}}"; 
+            // aliqStep4 = "{{cntStep4}}";
+            // aliqSplit = "{{cntSplit}}";
+            // aliqSlideLab = "{{cntSlideLab}}";
+            // aliqSlidePrep = "{{cntSlidePrep}}";
+            // aliqRevalue = "{{cntRevalue}}";
+            // aliqTransfer = "{{aliqTransfer}}";
+            // aliqReceive = "{{aliqReceive}}";
             
             // templates = $.parseJSON('{{mdamTemplates|safe}}');
             // mdam_url = "{{mdam_url}}";
+            $(document).ready(function() {
+                $(function(){
+                    $('#sortItem').sortable({
+                        placeholder: "ui-state-highlight", 
+                        helper:'clone',
+                        update: function (event, ui) {
+                            console.log('Update: ', event, ' - ', ui);
+                        }
+                    });
+                });
+            });
         </script>
 
         <div class="px-5  py-3">
             <div class="pb-3  row">
                 <div class="col-8">
-                    <div class="pb-3  row">
-                        <div class="col-sm-4  pb-3  pb-sm-0">
+                    <div style="position: relative;" class="pb-3  row" id="sortItem">
+                        <div style="position: relative;" class="col-sm-4  pb-3  sortable">
                             <div class="p-3  panel  panel-default">
-                                <div class="p-3  panel-heading  text-center"> Aliquot Derivation Schedule </div>
+                                <div class="p-3  panel-heading  text-center"> Aliquot Derivation </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn  btn-primary  btn-dashboard" id="aliqDer"> {{cntAliqDer}} </button>
+                                    <button class="btn  btn-primary  btn-dashboard" id="aliqDer"> Load data </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div style="position: relative;" class="col-sm-4  pb-3  sortable">
                             <div class="p-3  panel  panel-default">
-                                <div class="p-3  panel-heading  text-center"> Aliquot Split Schedule </div>
+                                <div class="p-3  panel-heading  text-center"> Aliquot Split </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn  btn-primary  btn-dashboard" id="aliqSplit"> {{cntSplit}} </button>
+                                    <button class="btn  btn-primary  btn-dashboard" id="aliqSplit"> Load data </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div style="position: relative;" class="col-sm-4  pb-3  sortable">
                             <div class="p-3  panel  panel-default">
-                                <div class="p-3  panel-heading  text-center"> Aliquot Slide Labelling </div>
+                                <div class="p-3  panel-heading  text-center"> Slide Labelling </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="aliqSlideLab"> {{cntSlideLab}} </button>
+                                    <button class="btn btn-primary  btn-dashboard" id="aliqSlideLab"> Load data </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <!-- </div>
 
-                    <div class="row">
-                        <div class="col-sm-4">
+                    <div class="row"> -->
+                        <div style="position: relative;" class="col-sm-4  pb-3  sortable">
                             <div class="p-3  panel  panel-default">
-                                <div class="p-3  panel-heading  text-center"> Aliquot Slide Preparation </div>
+                                <div class="p-3  panel-heading  text-center"> Slide Preparation </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="aliqSlidePrep"> {{cntSlidePrep}} </button>
+                                    <button class="btn btn-primary  btn-dashboard" id="aliqSlidePrep"> Load data </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div style="position: relative;" class="col-sm-4  pb-3  sortable">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Aliquot QC/QA </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="aliqQcQa"> {{cntRevalue}} </button>
+                                    <button class="btn btn-primary  btn-dashboard" id="aliqQcQa"> Load data </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div style="position: relative;" class="col-sm-4  pb-3  sortable">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Aliquot Transfer </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="aliqTransfer"> {{cntAliqTransfer}} </button>
+                                    <button class="btn btn-primary  btn-dashboard" id="aliqTransfer"> Load data </button>
                                 </div>
                             </div>
                         </div>

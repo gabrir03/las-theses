@@ -11,7 +11,8 @@
         <link rel="stylesheet" href="/lasauth_media/css/smoothness/jquery-ui-1.10.3.custom.css">
         
         <!-- jquery -->	
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <!-- <script src="/lasauth_media/js/jquery.js"></script> -->
@@ -39,11 +40,11 @@
                 {% endif %}
             
                 
-                $('body').ajaxComplete(function(e, xhr, settings) {
-                    if (xhr.status == 278) {
-                        window.location.href = xhr.getResponseHeader("Location").replace(/\?.*$/, "?next="+window.location.pathname);
-                    }
-                });
+                // $('body').ajaxComplete(function(e, xhr, settings) {
+                //     if (xhr.status == 278) {
+                //         window.location.href = xhr.getResponseHeader("Location").replace(/\?.*$/, "?next="+window.location.pathname);
+                //     }
+                // });
             
             });        
         </script>
@@ -53,6 +54,9 @@
 
     <body {%block bodyoption %}{% endblock %}>
         {% if user.username %}	
+        <script>
+            username = "{{user.username}}";
+        </script>
             <header>
                     
                 <h1 style="float:left;margin-top:16px;"> 

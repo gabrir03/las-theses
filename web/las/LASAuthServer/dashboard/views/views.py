@@ -2,101 +2,101 @@ from __init__ import *
 
 def home(request):
     try:
-        name = request.user.username
-        baseUrl = LASModule.objects.get(shortname='BBM').home_url + 'api/dhbd'
-        # biobank/api/dhbd/aliquot_derivation/
-        url = baseUrl + '/aliquot_derivation/' + name
-        req = urllib2.Request(url)
-        u = urllib2.urlopen(req)
-        res=u.read()
-        print 'res der ' + res
+        # name = request.user.username
+        # baseUrl = LASModule.objects.get(shortname='BBM').home_url + 'api/dhbd'
+        # # biobank/api/dhbd/aliquot_derivation/
+        # url = baseUrl + '/aliquot_derivation/' + name
+        # req = urllib2.Request(url)
+        # u = urllib2.urlopen(req)
+        # res=u.read()
+        # print 'res der ' + res
 
-        if res == 'errore':
-            raise Exception('Error in get aliquot derivation')
+        # if res == 'errore':
+        #     raise Exception('Error in get aliquot derivation')
 
-        test_string = res.replace('"[', '')
-        res = test_string.replace(']"', '')
-        test_string = res.replace(' ', '')
+        # test_string = res.replace('"[', '')
+        # res = test_string.replace(']"', '')
+        # test_string = res.replace(' ', '')
 
-        der_array = [int(s) for s in test_string.split(',')]
+        # der_array = [int(s) for s in test_string.split(',')]
 
-        totAliqDer = 0
-        for cnt in der_array:
-            totAliqDer += cnt
+        # totAliqDer = 0
+        # for cnt in der_array:
+        #     totAliqDer += cnt
         
-        # biobank/api/dhbd/aliquot_split/
-        url = baseUrl + '/aliquot_split/' + name
-        req = urllib2.Request(url)
-        u = urllib2.urlopen(req)
-        res=u.read()
+        # # biobank/api/dhbd/aliquot_split/
+        # url = baseUrl + '/aliquot_split/' + name
+        # req = urllib2.Request(url)
+        # u = urllib2.urlopen(req)
+        # res=u.read()
 
-        if res == 'errore':
-            raise Exception('Error in get aliquot split')
+        # if res == 'errore':
+        #     raise Exception('Error in get aliquot split')
 
-        print 'res split ' + res
-        cntSplit = res.replace('"', '')
+        # print 'res split ' + res
+        # cntSplit = res.replace('"', '')
 
-        # biobank/api/dhbd/aliquot_slideLab/
-        url = baseUrl + '/aliquot_slideLab/' + name
-        req = urllib2.Request(url)
-        u = urllib2.urlopen(req)
-        res=u.read()
+        # # biobank/api/dhbd/aliquot_slideLab/
+        # url = baseUrl + '/aliquot_slideLab/' + name
+        # req = urllib2.Request(url)
+        # u = urllib2.urlopen(req)
+        # res=u.read()
 
-        print 'res slide lab ' + res
-        cntSlideLab = res.replace('"', '')
+        # print 'res slide lab ' + res
+        # cntSlideLab = res.replace('"', '')
 
-        if res == 'errore':
-            raise Exception('Error in get aliquot slide lab')
+        # if res == 'errore':
+        #     raise Exception('Error in get aliquot slide lab')
 
-        # biobank/api/dhbd/aliquot_slidePrep/
-        url = baseUrl + '/aliquot_slidePrep/' + name
-        req = urllib2.Request(url)
-        u = urllib2.urlopen(req)
-        res=u.read()
+        # # biobank/api/dhbd/aliquot_slidePrep/
+        # url = baseUrl + '/aliquot_slidePrep/' + name
+        # req = urllib2.Request(url)
+        # u = urllib2.urlopen(req)
+        # res=u.read()
         
-        print 'res slide prep ' + res
-        cntSlidePrep = res.replace('"', '')
+        # print 'res slide prep ' + res
+        # cntSlidePrep = res.replace('"', '')
 
-        if res == 'errore':
-            raise Exception('Error in get aliquot slide prep')
+        # if res == 'errore':
+        #     raise Exception('Error in get aliquot slide prep')
 
-        # biobank/api/dhbd/aliquot_slidePrep/
-        url = baseUrl + '/aliquot_revalue'
-        req = urllib2.Request(url)
-        u = urllib2.urlopen(req)
-        res=u.read()
+        # # biobank/api/dhbd/aliquot_slidePrep/
+        # url = baseUrl + '/aliquot_revalue'
+        # req = urllib2.Request(url)
+        # u = urllib2.urlopen(req)
+        # res=u.read()
         
-        print 'res revalue ' + res
-        cntRevalue = res.replace('"', '')
+        # print 'res revalue ' + res
+        # cntRevalue = res.replace('"', '')
 
-        if res == 'errore':
-            raise Exception('Error in get aliquot revalue')
+        # if res == 'errore':
+        #     raise Exception('Error in get aliquot revalue')
 
-        # biobank/api/dhbd/aliquot_transfer/
-        url = baseUrl + '/aliquot_transfer/' + name
-        req = urllib2.Request(url)
-        u = urllib2.urlopen(req)
-        res=u.read()
-        print 'res transfer ' + res
+        # # biobank/api/dhbd/aliquot_transfer/
+        # url = baseUrl + '/aliquot_transfer/' + name
+        # req = urllib2.Request(url)
+        # u = urllib2.urlopen(req)
+        # res=u.read()
+        # print 'res transfer ' + res
 
-        if res == 'errore':
-            raise Exception('Error in get aliquot transfer')
+        # if res == 'errore':
+        #     raise Exception('Error in get aliquot transfer')
 
-        test_string = res.replace('"[', '')
-        res = test_string.replace(']"', '')
-        test_string = res.replace(' ', '')
+        # test_string = res.replace('"[', '')
+        # res = test_string.replace(']"', '')
+        # test_string = res.replace(' ', '')
 
-        transfer_array = [int(s) for s in test_string.split(',')]
+        # transfer_array = [int(s) for s in test_string.split(',')]
 
-        totAliqTransfer = 0
-        for cnt in transfer_array:
-            totAliqTransfer += cnt
+        # totAliqTransfer = 0
+        # for cnt in transfer_array:
+        #     totAliqTransfer += cnt
 
 
-        variables = RequestContext(request, {'form':True, 'cntAliqDer':totAliqDer, 'cntStep1':der_array[0], 'cntStep2':der_array[1],
-                                            'cntStep3':der_array[2], 'cntStep4':der_array[3], 'cntSplit':cntSplit, 'cntSlideLab':cntSlideLab,
-                                            'cntSlidePrep':cntSlidePrep, 'cntRevalue':cntRevalue, 'cntAliqTransfer':totAliqTransfer,
-                                            'aliqTransfer':transfer_array[0], 'aliqReceive':transfer_array[1]})
+        variables = RequestContext(request, {'form':True}) # , 'cntAliqDer':totAliqDer, 'cntStep1':der_array[0], 'cntStep2':der_array[1],
+                                            # 'cntStep3':der_array[2], 'cntStep4':der_array[3], 'cntSplit':cntSplit, 'cntSlideLab':cntSlideLab,
+                                            # 'cntSlidePrep':cntSlidePrep, 'cntRevalue':cntRevalue, 'cntAliqTransfer':totAliqTransfer,
+                                            # 'aliqTransfer':transfer_array[0], 'aliqReceive':transfer_array[1]})
         return render_to_response('indexDashboard.html', variables)
 
     except Exception,e:
