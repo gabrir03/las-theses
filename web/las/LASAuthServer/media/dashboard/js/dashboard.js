@@ -15,8 +15,10 @@ function startRedirectButtons() {
 
 $(document).ready(function() {
     var base_url = '../../../biobank/api/dhbd';
+    var timer = null;
 
     $('#aliqDer').click(function() {
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
         var urlStep1 = "/biobank/derived/execute";
         var urlStep2 = "/biobank/derived/execute/loadkit";
         var urlStep3 = "/biobank/derived/execute/loaddetailspart2";
@@ -27,6 +29,8 @@ $(document).ready(function() {
             'type' : 'GET',
             'dataType' : 'JSON',
             success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Aliquot derivation phases');
@@ -61,6 +65,8 @@ $(document).ready(function() {
                 }
             },
             error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
             }
         });
@@ -84,6 +90,7 @@ $(document).ready(function() {
     });
 
     $('#aliqSplit').click(function() {
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
         var urlSplit = "/biobank/split/execute";
         var url = base_url + '/aliquot_split/' + username;
         $.ajax({
@@ -91,6 +98,8 @@ $(document).ready(function() {
             'type' : 'GET',
             'dataType' : 'JSON',
             success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Aliquot to split');
@@ -103,12 +112,15 @@ $(document).ready(function() {
                 }
             },
             error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
             }
         });
     });
 
     $('#aliqSlideLab').click(function() {
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
         var urlSlideLab = "/biobank/label/execute";
         var url = base_url + '/aliquot_slideLab/' + username;
         $.ajax({
@@ -116,6 +128,8 @@ $(document).ready(function() {
             'type' : 'GET',
             'dataType' : 'JSON',
             success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Aliquot ready for slide labelling');
@@ -128,12 +142,15 @@ $(document).ready(function() {
                 }
             },
             error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
             }
         });
     });
 
     $('#aliqSlidePrep').click(function() {
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
         var urlSlidePrep = "/biobank/slide/choose";
         var url = base_url + '/aliquot_slidePrep/' + username;
         $.ajax({
@@ -141,6 +158,8 @@ $(document).ready(function() {
             'type' : 'GET',
             'dataType' : 'JSON',
             success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Aliquot ready for slide preparation');
@@ -153,12 +172,15 @@ $(document).ready(function() {
                 }
             },
             error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
             }
         });
     });
     
     $('#aliqQcQa').click(function() {
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
         var urlRevalue = "/biobank/revalue/execute";
         var url = base_url + '/aliquot_revalue';
         $.ajax({
@@ -166,6 +188,8 @@ $(document).ready(function() {
             'type' : 'GET',
             'dataType' : 'JSON',
             success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Aliquot ready for performing QC/QA');
@@ -178,12 +202,15 @@ $(document).ready(function() {
                 }
             },
             error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
             }
         });
     });
 
     $('#aliqTransfer').click(function() {
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
         var urlTransfer = "/biobank/transfer/pending";
         var urlReceive = "/biobank/transfer/receive";
         var url = base_url + '/aliquot_transfer/' + username;
@@ -192,6 +219,8 @@ $(document).ready(function() {
             'type' : 'GET',
             'dataType' : 'JSON',
             success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Aliquot for transfering');
@@ -208,6 +237,8 @@ $(document).ready(function() {
                 }
             },
             error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
             }
         });
