@@ -19,10 +19,6 @@ $(document).ready(function() {
 
     $('#aliqDer').click(function() {
         timer = setTimeout(function(){$("body").addClass("loading");},100);
-        var urlStep1 = "/biobank/derived/execute";
-        var urlStep2 = "/biobank/derived/execute/loadkit";
-        var urlStep3 = "/biobank/derived/execute/loaddetailspart2";
-        var urlStep4 = "/biobank/derived/execute/loadlastpart";
         var url = base_url + '/aliquot_derivation/' + username;
         $.ajax({
             'url' : url,
@@ -31,30 +27,63 @@ $(document).ready(function() {
             success(result, status) {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
-                console.log('Ajax: ', result.data, ' - ', status);
+                console.log('Ajax: ', result, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Aliquot derivation phases');
                     var htmlString = '';
                     var labelText = '';
                     var urlText = '';
+                    // console.log('Manuale: ', result.data);
                     for (var i = 0; i < result.data.length; i++) {
                         if (i == 0) {
                             labelText = '1. Protocol Selection: ';
-                            urlText = urlStep1;
+                            urlText = "/biobank/derived/execute";
                         }
                         if (i == 1) {
                             labelText = '2. Select kit: ';
-                            urlText = urlStep2;
+                            urlText = "/biobank/derived/execute/loadkit";
                         }
                         if (i == 2) {
                             labelText = '3. Perform QC/QA: ';
-                            urlText = urlStep3;
+                            urlText = "/biobank/derived/execute/loaddetailspart2";
                         }
                         if (i == 3) {
                             labelText = '4. Create derivatives: ';
-                            urlText = urlStep4;
+                            urlText = "/biobank/derived/execute/loadlastpart";
                         }
                         labelText += result.data[i] + ' aliquots';
+                        htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
+                                            <label>' + labelText + '</label> &nbsp;\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlText + ' value="View">View</button>\
+                                        </div>';
+                    }
+                    // console.log('Robot: ', result.dataRobot);
+                    // ROBOT
+                    htmlString += '<hr class="m-0">\
+                                    <div class="p-3  text-center">\
+                                        <label>Robot</label>\
+                                    </div>';
+                    // Primo step in comune fra robot e manuale
+                    labelText = '1. Protocol Selection: ' + result.data[0] + ' aliquots';
+                    urlText = "/biobank/derived/robot/loadstep1";
+                    htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
+                                    <label>' + labelText + '</label> &nbsp;\
+                                    <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlText + ' value="View">View</button>\
+                                </div>';
+                    for (var i = 0; i < result.dataRobot.length; i++) {
+                        if (i == 0) {
+                            labelText = '2. Select kit: ';
+                            urlText = "/biobank/derived/robot/loadstepkit";
+                        }
+                        if (i == 1) {
+                            labelText = '3. Perform QC/QA: ';
+                            urlText = "/biobank/derived/robot/measure";
+                        }
+                        if (i == 2) {
+                            labelText = '4. Create derivatives: ';
+                            urlText = "/biobank/derived/robot/loadcreatealiquot";
+                        }
+                        labelText += result.dataRobot[i] + ' aliquots';
                         htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
                                             <label>' + labelText + '</label> &nbsp;\
                                             <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlText + ' value="View">View</button>\
@@ -70,28 +99,12 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             }
         });
-        // var htmlString = '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
-        //                     <label>1. Protocol Selection: ' + aliqStep1 + ' aliquots</label> &nbsp;\
-        //                     <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlStep1 + ' value="View">View</button>\
-        //                 </div>\
-        //                 <div class="align-items-center  d-flex  justify-content-between  pb-3">\
-        //                     <label>2. Select kit: ' + aliqStep2 + ' aliquots</label> &nbsp;\
-        //                     <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlStep2 + ' value="View">View</button>\
-        //                 </div>\
-        //                 <div class="align-items-center  d-flex  justify-content-between  pb-3">\
-        //                     <label>3. Perform QC/QA: ' + aliqStep3 + ' aliquots</label> &nbsp;\
-        //                     <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlStep3 + ' value="View">View</button>\
-        //                 </div>\
-        //                 <div class="align-items-center  d-flex  justify-content-between">\
-        //                     <label>4. Create derivatives: ' + aliqStep4 + ' aliquots</label> &nbsp;\
-        //                     <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlStep4 + ' value="View">View</button>\
-        //                 </div>';
-        // 
     });
 
     $('#aliqSplit').click(function() {
         timer = setTimeout(function(){$("body").addClass("loading");},100);
         var urlSplit = "/biobank/split/execute";
+        var urlRobotSplit = "/biobank/split/robot/loadvalidate";
         var url = base_url + '/aliquot_split/' + username;
         $.ajax({
             'url' : url,
@@ -107,6 +120,14 @@ $(document).ready(function() {
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
                                         <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlSplit + ' value="View">View</button>\
                                     </div>';
+                    htmlString += '<hr class="m-0">\
+                                    <div class="p-3  text-center">\
+                                        <label>Robot</label>\
+                                    </div>';
+                    htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
+                                    <label>' + result.data + ' aliquots</label> &nbsp;\
+                                    <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlRobotSplit + ' value="View">View</button>\
+                                </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
                 }
@@ -182,7 +203,8 @@ $(document).ready(function() {
     $('#aliqQcQa').click(function() {
         timer = setTimeout(function(){$("body").addClass("loading");},100);
         var urlRevalue = "/biobank/revalue/execute";
-        var url = base_url + '/aliquot_revalue';
+        var urlRobotRevalue = "/biobank/revalue/robot/loadvalidate";
+        var url = base_url + '/aliquot_revalue/' + username;
         $.ajax({
             'url' : url,
             'type' : 'GET',
@@ -197,6 +219,14 @@ $(document).ready(function() {
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
                                         <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlRevalue  + ' value="View">View</button>\
                                     </div>';
+                    htmlString += '<hr class="m-0">\
+                                    <div class="p-3  text-center">\
+                                        <label>Robot</label>\
+                                    </div>';
+                    htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
+                                    <label>' + result.data + ' aliquots</label> &nbsp;\
+                                    <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlRobotRevalue + ' value="View">View</button>\
+                                </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
                 }
@@ -224,7 +254,7 @@ $(document).ready(function() {
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Aliquot for transfering');
-                    var htmlString = '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
+                    var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data[0] + ' aliquots pending for tranfer</label> &nbsp;\
                                         <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlTransfer + ' value="View">View</button>\
                                     </div>\

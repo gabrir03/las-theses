@@ -39,7 +39,9 @@ jQuery(document).ready(function(){
 			    {% endif %}
 			{% endfor %} 		
 
-			<li url='{% url loginmanager.views.dashboardHome %}'>Dashboard</li> <!-- Da capire come richiamare la dashboard da questo modulo -->
+			{% if not manager %}
+			<li url='{% url loginmanager.views.dashboardHome %}'>Dashboard</li>
+			{% endif %}
 			<li target='usermanager'>Profile & Tutorial</li>
 			<li url='{% url loginmanager.views.helpdesk %}'>HelpDesk</li>
 	        </nav>

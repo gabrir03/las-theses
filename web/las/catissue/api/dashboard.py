@@ -38,25 +38,54 @@ class AliquotDerivationHandler(BaseHandler):
             lista2=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idKit=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
             lista3=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
             lista4=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(initialDate=None)&Q(measurementExecuted=1)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            # Nel primo step vedro' sempre le stesse aliquote, sia robot che manuale
+            featrobot=FeatureDerivation.objects.get(name='Robot')
+            lisprotrobot=FeatureDerProtocol.objects.filter(idFeatureDerivation=featrobot).values_list('idDerProtocol',flat=True)
+            lista2Robot=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idDerivationProtocol__in=lisprotrobot)&Q(idKit=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            lista3Robot=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idDerivationProtocol__in=lisprotrobot)&~Q(loadQuantity=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            #prendo gli idplanrobot che mi servono per avere tutte le derivazioni, anche quelle fallite
+            lisplanrobot=list(AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idDerivationProtocol__in=lisprotrobot)&Q(measurementExecuted=1)&Q(volumeOutcome__isnull=False)&Q(deleteTimestamp=None)).values_list('idPlanRobot',flat=True))
+            #Nella lista dei planrobot vedo quali sono quelli le cui misure sono gia' state salvate e che quindi devono comparire nel quarto passo della derivazione
+            lisplanhamilton=PlanHamilton.objects.filter(id__in=lisplanrobot,processed__isnull=False)
+            lisplanfin=[]
+            for p in lisplanhamilton:
+                lisplanfin.append(p.id)    
+            lista4Robot=AliquotDerivationSchedule.objects.filter(Q(idPlanRobot__in=lisplanfin)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idDerivationProtocol__in=lisprotrobot)&Q(deleteTimestamp=None)).order_by('validationTimestamp')
             enable_graph()
+
             liskitsi=[]
             for aliq in lista2:
                 if aliq.idDerivationProtocol.idKitType!=None:
                     liskitsi.append(aliq)
+            
+            liskitsiRobot=[]
+            for aliq in lista2Robot:
+                if aliq.idDerivationProtocol.idKitType!=None:
+                    liskitsiRobot.append(aliq)
             
             #devo filtrare ancora per togliere quelli che non hanno un kit, ma che dovrebbero averlo
             lisfin=[]
             for aliq in lista3:
                 if aliq.idKit!=None or aliq.idDerivationProtocol.idKitType==None:
                     lisfin.append(aliq)
+                    
+            lisfinRobot=[]
+            for aliq in lista3Robot:
+                if aliq.idKit!=None or aliq.idDerivationProtocol.idKitType==None:
+                    lisfinRobot.append(aliq)
             
             liste = []
             liste.append(len(lista1))
             liste.append(len(liskitsi))
             liste.append(len(lisfin))
             liste.append(len(lista4))
+
+            listeRobot = []
+            listeRobot.append(len(liskitsiRobot))
+            listeRobot.append(len(lisfinRobot))
+            listeRobot.append(len(lista4Robot))
             # return json.dumps(liste)
-            return {'data':liste}
+            return {'data':liste, 'dataRobot':listeRobot}
         except Exception, e:
             print 'err',e
             return {'data':'errore'}
@@ -67,29 +96,33 @@ class AliquotSplitHandler(BaseHandler):
     @method_decorator(get_functionality_decorator)
     def read(self, request, nome):
         try:
-            wg = list(get_WG())
-            mdamUrl = Urls.objects.get(idWebService=WebService.objects.get(name='MDAM').id)
-            url = mdamUrl.url + "/api/runtemplate/"
-            ''' Split not executed template '''
-            values_to_send = {'template_id':56}
-            data = urllib.urlencode(values_to_send)
+            disable_graph()
+            # Query con accesso alla tabella collegata (SplitSchedule) e selezione dell'utente corretto
+            lista=AliquotSplitSchedule.objects.filter(splitExecuted=0, deleteTimestamp=None, idSplitSchedule__operator=nome)
+            enable_graph()
+            # mdamUrl = Urls.objects.get(idWebService=WebService.objects.get(name='MDAM').id)
+            # url = mdamUrl.url + "/api/runtemplate/"
+            # ''' Split not executed template '''
+            # values_to_send = {'template_id':56}
+            # data = urllib.urlencode(values_to_send)
 
-            try:
-                u = urllib2.urlopen(url, data)
-            except Exception, e:
-                print e
-                print "An error occurred while trying to retrieve data from "+str(url)
-                return 'errore'
+            # try:
+            #     u = urllib2.urlopen(url, data)
+            # except Exception, e:
+            #     print e
+            #     print "An error occurred while trying to retrieve data from "+str(url)
+            #     return 'errore'
 
-            res=u.read()
-            result=json.loads(res)
+            # res=u.read()
+            # result=json.loads(res)
             
-            resSet = []
-            for x in result['body']: # Object
-                resSet.append(x) # Vettore di aliquot split schedule
+            # resSet = []
+            # for x in result['body']: # Object
+            #     resSet.append(x) # Vettore di aliquot split schedule
 
             # return json.dumps(len(resSet))
-            return {'data':len(resSet)}
+            # return {'data':len(resSet)}
+            return {'data':len(lista)}
         except Exception, e:
             print 'err',e
             return {'data':'errore'}
@@ -130,10 +163,11 @@ class AliquotSlidePrepHandler(BaseHandler):
 class AliquotRevalueHandler(BaseHandler):
     allowed_methods = ('GET', 'POST')
     @method_decorator(get_functionality_decorator)
-    def read(self, request):
+    def read(self, request, nome):
         try:
             disable_graph()
-            lista=AliquotQualitySchedule.objects.filter(revaluationExecuted=0, deleteTimestamp=None)
+            # Query con accesso alla tabella collegata (QualitySchedule) e selezione dell'utente corretto
+            lista=AliquotQualitySchedule.objects.filter(revaluationExecuted=0, deleteTimestamp=None, idQualitySchedule__operator=nome)
             enable_graph()
             # return json.dumps(len(lista))
             return {'data':len(lista)}
