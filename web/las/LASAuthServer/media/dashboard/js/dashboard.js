@@ -36,19 +36,19 @@ $(document).ready(function() {
                     // console.log('Manuale: ', result.data);
                     for (var i = 0; i < result.data.length; i++) {
                         if (i == 0) {
-                            labelText = '1. Protocol Selection: ';
+                            labelText = 'Protocol Selection: ';
                             urlText = "/biobank/derived/execute";
                         }
                         if (i == 1) {
-                            labelText = '2. Select kit: ';
+                            labelText = 'Select kit: ';
                             urlText = "/biobank/derived/execute/loadkit";
                         }
                         if (i == 2) {
-                            labelText = '3. Perform QC/QA: ';
+                            labelText = 'Perform QC/QA: ';
                             urlText = "/biobank/derived/execute/loaddetailspart2";
                         }
                         if (i == 3) {
-                            labelText = '4. Create derivatives: ';
+                            labelText = 'Create derivatives: ';
                             urlText = "/biobank/derived/execute/loadlastpart";
                         }
                         labelText += result.data[i] + ' aliquots';
@@ -64,7 +64,7 @@ $(document).ready(function() {
                                         <label>Robot</label>\
                                     </div>';
                     // Primo step in comune fra robot e manuale
-                    labelText = '1. Protocol Selection: ' + result.data[0] + ' aliquots';
+                    labelText = 'Protocol Selection: ' + result.data[0] + ' aliquots';
                     urlText = "/biobank/derived/robot/loadstep1";
                     htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
                                     <label>' + labelText + '</label> &nbsp;\
@@ -72,15 +72,15 @@ $(document).ready(function() {
                                 </div>';
                     for (var i = 0; i < result.dataRobot.length; i++) {
                         if (i == 0) {
-                            labelText = '2. Select kit: ';
+                            labelText = 'Select kit: ';
                             urlText = "/biobank/derived/robot/loadstepkit";
                         }
                         if (i == 1) {
-                            labelText = '3. Perform QC/QA: ';
+                            labelText = 'Perform QC/QA: ';
                             urlText = "/biobank/derived/robot/measure";
                         }
                         if (i == 2) {
-                            labelText = '4. Create derivatives: ';
+                            labelText = 'Create derivatives: ';
                             urlText = "/biobank/derived/robot/loadcreatealiquot";
                         }
                         labelText += result.dataRobot[i] + ' aliquots';
@@ -265,6 +265,26 @@ $(document).ready(function() {
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
                 }
+            },
+            error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax ERROR: ', error, ' - ', status);
+            }
+        });
+    });
+
+    $('#implantedMice').click(function(){
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
+        var url = base_url + '/implanted_mice/' + username;
+        $.ajax({
+            'url' : url,
+            'type' : 'GET',
+            'dataType' : 'JSON',
+            success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax: ', result.data, ' - ', status);
             },
             error(xhr, status, error) {
                 clearTimeout(timer);

@@ -194,3 +194,60 @@ class AliquotTransferHandler(BaseHandler):
         except Exception, e:
             print 'error', e
             return {'data':'errore'}
+
+class ImplantedMiceHandler(BaseHandler):
+    allowed_methods = ('GET', 'POST')
+    @method_decorator(get_functionality_decorator)
+    def read(self, request, nome):
+        try:
+            operatore=User.objects.get(username=nome)
+            disable_graph()
+            listaWG = WG_User.objects.filter(user=operatore)
+            enable_graph()
+            wg_set = []
+            for wgUser in listaWG:
+                if not str(wgUser.WG) in wg_set:
+                    wg_set.append(str(wgUser.WG))
+
+            print 'All WG:', wg_set
+            mdamUrl = Urls.objects.get(idWebService=WebService.objects.get(name='MDAM').id)
+            url = mdamUrl.url + "/api/runtemplate/"
+            ''' Mice Implanted template (admin) '''
+            ''' {"name": "WG",
+            "bq_par_id": 0,
+            "src_f_id": 236,
+            "src_block_id": "5",
+            "type": 7,
+            "src_button_id": 62,
+            "description": ""}, '''
+            ''' Parametri: [{
+                "name": "WG",
+                "bq_par_id": 0,
+                "src_f_id": "209",
+                "src_block_id": "1",
+                "type": 7,
+                "src_button_id": 26,
+                "description": ""}] '''
+            ### wg = ['admin', 'test_WG']
+            parameters= [{'id':'0', 'values':wg_set}]
+            values_to_send = {'template_id':65, 'parameters':json.dumps(parameters)}
+            data = urllib.urlencode(values_to_send)
+
+            try:
+                u = urllib2.urlopen(url, data)
+            except Exception, e:
+                print e
+                print "An error occurred while trying to retrieve data from "+str(url)
+                return 'errore'
+
+            res=u.read()
+            result=json.loads(res)
+
+            resSet = []
+            for x in result['body']: # Object
+                resSet.append(x) # Vettore di topi
+            print 'Test: ', len(result['body'])
+            return {'data':len(resSet)}
+        except Exception, e:
+            print 'error', e
+            return {'data':'errore'}

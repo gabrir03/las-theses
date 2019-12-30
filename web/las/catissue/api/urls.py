@@ -134,6 +134,7 @@ aliquotSlideLab_h=Resource(AliquotSlideLabHandler)
 aliquotSlidePrep_h=Resource(AliquotSlidePrepHandler)
 aliquotRevalue_h=Resource(AliquotRevalueHandler)
 aliquotTransfer_h=Resource(AliquotTransferHandler)
+implantedMice_h=Resource(ImplantedMiceHandler)
 
 urlpatterns = patterns('',
 #url(r'^place/$', place_h),                       
@@ -265,4 +266,6 @@ url(r'^dhbd/aliquot_slideLab/(?P<nome>[\w|\W]+)$', aliquotSlideLab_h),
 url(r'^dhbd/aliquot_slidePrep/(?P<nome>[\w|\W]+)$', aliquotSlidePrep_h),
 url(r'^dhbd/aliquot_revalue/(?P<nome>[\w|\W]+)$', aliquotRevalue_h),
 url(r'^dhbd/aliquot_transfer/(?P<nome>[\w|\W]+)$', aliquotTransfer_h),
+url(r'^dhbd/implanted_mice/(?P<nome>[\w|\W]+)$', implantedMice_h),
+
 )
