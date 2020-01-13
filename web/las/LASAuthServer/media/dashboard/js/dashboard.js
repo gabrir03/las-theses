@@ -15,6 +15,7 @@ function startRedirectButtons() {
 
 $(document).ready(function() {
     var base_url = '../../../biobank/api/dhbd';
+    var base_xeno_url = '../../../xeno/api/dhbd';
     var timer = null;
 
     $('#aliqDer').click(function() {
@@ -276,7 +277,8 @@ $(document).ready(function() {
 
     $('#implantedMice').click(function(){
         timer = setTimeout(function(){$("body").addClass("loading");},100);
-        var url = base_url + '/implanted_mice/' + username;
+        var url = base_xeno_url + '/implanted_mice/' + username;
+        var urlView = "/xeno/experiments/ongoing";
         $.ajax({
             'url' : url,
             'type' : 'GET',
@@ -285,6 +287,60 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
+                if (result.data != 'errore') {
+                    var label = '';
+                    if (result.data == 1) {
+                        $('#tableHeader').html('Implanted Mouse');
+                        label = result.data + ' mouse';
+                    } else {
+                        $('#tableHeader').html('Implanted Mice');
+                        label = result.data + ' mice';
+                    }
+                    
+                    var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
+                                        <label>' + label + '</label> &nbsp;\
+                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlView + ' value="View">View</button>\
+                                    </div>';
+                    $('#tableBody').html(htmlString);
+                    startRedirectButtons();
+                }
+            },
+            error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax ERROR: ', error, ' - ', status);
+            }
+        });
+    });
+
+    $('#availableMice').click(function(){
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
+        var url = base_xeno_url + '/available_mice';
+        var urlView = "/xeno/implants/start";
+        $.ajax({
+            'url' : url,
+            'type' : 'GET',
+            'dataType' : 'JSON',
+            success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax: ', result.data, ' - ', status);
+                if (result.data != 'errore') {
+                    var label = '';
+                    $('#tableHeader').html('Available Mice');
+                    if (result.data == 1) {
+                        label = result.data + ' mouse';
+                    } else {
+                        label = result.data + ' mice';
+                    }
+                    
+                    var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
+                                        <label>' + label + '</label> &nbsp;\
+                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlView + ' value="Start Implant">Start Implant</button>\
+                                    </div>';
+                    $('#tableBody').html(htmlString);
+                    startRedirectButtons();
+                }
             },
             error(xhr, status, error) {
                 clearTimeout(timer);

@@ -4,6 +4,7 @@ from api.handlers import *
 from api.tablesValues import *
 from api.query import *
 from api.exempt import *
+from api.dashboard import *
 
 
 id_genealogy_handler = Resource(IdGenealogyHandler)
@@ -64,6 +65,9 @@ logoutResource = CsrfExemptResource(LogoutHandler)
 change_wg_handler = CsrfExemptResource(changeWGBiomiceH)
 shareBiomice_handler=CsrfExemptResource(ShareBiomice)
 
+implantedMice_h = Resource(ImplantedMiceHandler)
+availableMice_h = Resource(AvailableMiceHandler)
+
 urlpatterns = patterns('',
     url(r'^tissue/$', tissue_h),
     url(r'^genealogy/(?P<barcode>[\w|\W]*)/(?P<site>[\w|\W]*)/$', id_genealogy_handler),
@@ -119,6 +123,9 @@ urlpatterns = patterns('',
     url(r'^exgroupList/$', exgroup_list),
     url(r'^cancGroupList/$', cancg_list),
     url(r'^armNameList/$', arms_list),
+
+    url(r'^dhbd/implanted_mice/(?P<nome>[\w|\W]+)$', implantedMice_h),
+    url(r'^dhbd/available_mice/$', availableMice_h),
     
     url(r'^login$', loginResource),
     url(r'^logout$', logoutResource),    
