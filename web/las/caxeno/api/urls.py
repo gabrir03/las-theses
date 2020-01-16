@@ -67,6 +67,8 @@ shareBiomice_handler=CsrfExemptResource(ShareBiomice)
 
 implantedMice_h = Resource(ImplantedMiceHandler)
 availableMice_h = Resource(AvailableMiceHandler)
+miceUnderTreatment_h = Resource(MiceUnderTreatmentHandler)
+explantMice_h = Resource(ExplantMiceHandler)
 
 urlpatterns = patterns('',
     url(r'^tissue/$', tissue_h),
@@ -126,6 +128,8 @@ urlpatterns = patterns('',
 
     url(r'^dhbd/implanted_mice/(?P<nome>[\w|\W]+)$', implantedMice_h),
     url(r'^dhbd/available_mice/$', availableMice_h),
+    url(r'^dhbd/mice_under_treatment/(?P<nome>[\w|\W]+)$', miceUnderTreatment_h),
+    url(r'^dhbd/explant_mice/(?P<nome>[\w|\W]+)$', explantMice_h),
     
     url(r'^login$', loginResource),
     url(r'^logout$', logoutResource),    

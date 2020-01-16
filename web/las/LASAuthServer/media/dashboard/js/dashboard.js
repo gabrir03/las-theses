@@ -349,4 +349,84 @@ $(document).ready(function() {
             }
         });
     });
+    
+    $('#miceUnderTreatment').click(function(){
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
+        var url = base_xeno_url + '/mice_under_treatment/' + username;
+        var urlView = "/xeno/experiments/ongoing";
+        $.ajax({
+            'url' : url,
+            'type' : 'GET',
+            'dataType' : 'JSON',
+            success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax: ', result.data, ' - ', status);
+                if (result.data != 'errore') {
+                    var label = '';
+                    $('#tableHeader').html('Mice Under Treatment');
+                    if (result.data == 1) {
+                        label = result.data + ' mouse';
+                    } else {
+                        label = result.data + ' mice';
+                    }
+                    
+                    var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
+                                        <label>' + label + '</label> &nbsp;\
+                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlView + ' value="View">View</button>\
+                                    </div>';
+                    $('#tableBody').html(htmlString);
+                    startRedirectButtons();
+                }
+            },
+            error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax ERROR: ', error, ' - ', status);
+            }
+        });
+    });
+    
+    $('#explantMice').click(function(){
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
+        var url = base_xeno_url + '/explant_mice/' + username;
+        var urlView = "/xeno/explants/start";
+        $.ajax({
+            'url' : url,
+            'type' : 'GET',
+            'dataType' : 'JSON',
+            success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax: ', result.data, ' - ', status);
+                if (result.data != 'errore') {
+                    var label = '';
+                    $('#tableHeader').html('Mice For Explant');
+                    if (result.data[0] == 1) {
+                        label = result.data[0] + ' mouse';
+                    } else {
+                        label = result.data[0] + ' mice';
+                    }
+                    label += ' ready for explant<br>';
+                    if (result.data[1] == 1) {
+                        label += result.data[1] + ' mouse';
+                    } else {
+                        label += result.data[1] + ' mice';
+                    }
+                    label += ' for explant lite';
+                    var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
+                                        <label>' + label + '</label> &nbsp;\
+                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlView + ' value="Start Explant">Start Explant</button>\
+                                    </div>';
+                    $('#tableBody').html(htmlString);
+                    startRedirectButtons();
+                }
+            },
+            error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax ERROR: ', error, ' - ', status);
+            }
+        });
+    });
 });
