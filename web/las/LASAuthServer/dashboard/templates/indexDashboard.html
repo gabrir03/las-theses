@@ -4,25 +4,10 @@
 
 {% block content %}
 	<script type="text/javascript" src="/lasauth_media/dashboard/js/dashboard.js"></script>
-
-	<!-- <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}style-menu.css" /> -->
 	<link rel="stylesheet" type="text/css" href="/lasauth_media/dashboard/css/dashboard.css" />
 
 	{% if not errore %}
-        <script type="text/javascript"> 
-            // aliqStep1 = "{{cntStep1}}"; 
-            // aliqStep2 = "{{cntStep2}}"; 
-            // aliqStep3 = "{{cntStep3}}"; 
-            // aliqStep4 = "{{cntStep4}}";
-            // aliqSplit = "{{cntSplit}}";
-            // aliqSlideLab = "{{cntSlideLab}}";
-            // aliqSlidePrep = "{{cntSlidePrep}}";
-            // aliqRevalue = "{{cntRevalue}}";
-            // aliqTransfer = "{{aliqTransfer}}";
-            // aliqReceive = "{{aliqReceive}}";
-            
-            // templates = $.parseJSON('{{mdamTemplates|safe}}');
-            // mdam_url = "{{mdam_url}}";
+        <script type="text/javascript">
             $(document).ready(function() {
                 $(function(){
                     $('#sortItem').sortable({
@@ -123,11 +108,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                            <div class="p-3  panel  panel-default">
+                                <div class="p-3  panel-heading  text-center"> Collections </div>
+                                <div class="px-3  py-2  panel-body  text-center">
+                                    <button class="btn btn-primary  btn-dashboard" id="collections"> Load data </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="p-3  panel  panel-default  panel-description">
-                        <div class="p-3  panel-heading  text-center" id="tableHeader">
+                        <div class="font-weight-bold  p-3  panel-heading  text-center" id="tableHeader">
                             Select data to display
                         </div>
                         <hr class="m-0">

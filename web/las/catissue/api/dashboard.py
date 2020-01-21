@@ -195,6 +195,36 @@ class AliquotTransferHandler(BaseHandler):
             print 'error', e
             return {'data':'errore'}
 
+class CollectionsHandler(BaseHandler):
+    allowed_methods = ('GET', 'POST')
+    @method_decorator(get_functionality_decorator)
+    def read(self, request):
+        try:
+            mdamUrl = Urls.objects.get(idWebService=WebService.objects.get(name='MDAM').id)
+            url = mdamUrl.url + "/api/runtemplate/"
+            values_to_send = {'template_id':4} # All collections default template
+            data = urllib.urlencode(values_to_send)
+
+            try:
+                u = urllib2.urlopen(url, data)
+            except Exception, e:
+                print e
+                print "An error occurred while trying to retrieve data from "+str(url)
+                return 'errore'
+
+            res=u.read()
+            result=json.loads(res)
+
+            resSet = []
+            for x in result['body']: # Object
+                resSet.append(x) # Vettore di collezioni
+                # print x[0] # CHC0001
+            
+            return {'data':resSet}
+        except Exception, e:
+            print 'error', e
+            return {'data':'errore'}
+
 # class ImplantedMiceHandler(BaseHandler):
 #     allowed_methods = ('GET', 'POST')
 #     @method_decorator(get_functionality_decorator)

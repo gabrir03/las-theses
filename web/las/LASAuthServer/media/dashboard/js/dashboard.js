@@ -429,4 +429,45 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#collections').click(function(){
+        timer = setTimeout(function(){$("body").addClass("loading");},100);
+        var url = base_url + '/collections';
+        $.ajax({
+            'url' : url,
+            'type' : 'GET',
+            'dataType' : 'JSON',
+            success(result, status) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax: ', result.data, ' - ', status);
+                if (result.data != 'errore') {
+                    $('#tableHeader').html('Available Collections');
+                    var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
+                                        <label>' + result.data.length + ' collections</label>\
+                                    </div>';
+                    htmlString +=   '<div class="font-weight-bold  pb-3  row">\
+                                        <div class="col">Type</div>\
+                                        <div class="col">Code</div>\
+                                        <div class="col">Date</div>\
+                                    </div>';
+                    for (var i = 0; i < result.data.length; i++) {
+                        htmlString += '<div class="pb-2  row">\
+                                            <div class="col">' + result.data[i][3] + '</div>\
+                                            <div class="col">' + result.data[i][6] + '</div>\
+                                            <div class="col">' + result.data[i][7] + '</div>\
+                                        </div>';
+                    }
+                    htmlString += '</div>';
+                    $('#tableBody').html(htmlString);
+                    startRedirectButtons();
+                }
+            },
+            error(xhr, status, error) {
+                clearTimeout(timer);
+                $("body").removeClass("loading");
+                console.log('Ajax ERROR: ', error, ' - ', status);
+            }
+        });
+    });
 });
