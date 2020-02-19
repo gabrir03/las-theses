@@ -14,6 +14,25 @@ function startRedirectButtons() {
 };
 
 $(document).ready(function() {
+
+    $.ajax({
+        'url' : '../load_data',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#aliqDer').html(result.aliqDer);
+                $('#aliqDer').removeClass('btn-warning');
+                $('#aliqDer').addClass('btn-success');
+                console.log(result.data);
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+
     var base_url = '../../../biobank/api/dhbd';
     var base_xeno_url = '../../../xeno/api/dhbd';
     var timer = null;
@@ -55,7 +74,9 @@ $(document).ready(function() {
                         labelText += result.data[i] + ' aliquots';
                         htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
                                             <label>' + labelText + '</label> &nbsp;\
-                                            <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlText + ' value="View">View</button>\
+                                            <a href="' + urlText + '" target="_blank">\
+                                                <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                            </a>\
                                         </div>';
                     }
                     // console.log('Robot: ', result.dataRobot);
@@ -69,7 +90,9 @@ $(document).ready(function() {
                     urlText = "/biobank/derived/robot/loadstep1";
                     htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
                                     <label>' + labelText + '</label> &nbsp;\
-                                    <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlText + ' value="View">View</button>\
+                                    <a href="' + urlText + '" target="_blank">\
+                                        <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                    </a>\
                                 </div>';
                     for (var i = 0; i < result.dataRobot.length; i++) {
                         if (i == 0) {
@@ -87,7 +110,9 @@ $(document).ready(function() {
                         labelText += result.dataRobot[i] + ' aliquots';
                         htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
                                             <label>' + labelText + '</label> &nbsp;\
-                                            <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlText + ' value="View">View</button>\
+                                            <a href="' + urlText + '" target="_blank">\
+                                                <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                            </a>\
                                         </div>';
                     }
                     $('#tableBody').html(htmlString);
@@ -119,7 +144,9 @@ $(document).ready(function() {
                     $('#tableHeader').html('Aliquot to split');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlSplit + ' value="View">View</button>\
+                                        <a href="' + urlSplit + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                        </a>\
                                     </div>';
                     htmlString += '<hr class="m-0">\
                                     <div class="p-3  text-center">\
@@ -127,7 +154,9 @@ $(document).ready(function() {
                                     </div>';
                     htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
                                     <label>' + result.data + ' aliquots</label> &nbsp;\
-                                    <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlRobotSplit + ' value="View">View</button>\
+                                    <a href="' + urlRobotSplit + '" target="_blank">\
+                                        <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                    </a>\
                                 </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
@@ -157,7 +186,9 @@ $(document).ready(function() {
                     $('#tableHeader').html('Aliquot ready for slide labelling');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlSlideLab + ' value="View">View</button>\
+                                        <a href="' + urlSlideLab + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                        </a>\
                                     </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
@@ -187,7 +218,9 @@ $(document).ready(function() {
                     $('#tableHeader').html('Aliquot ready for slide preparation');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlSlidePrep + ' value="View">View</button>\
+                                        <a href="' + urlSlidePrep + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                        </a>\
                                     </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
@@ -218,7 +251,9 @@ $(document).ready(function() {
                     $('#tableHeader').html('Aliquot ready for performing QC/QA');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlRevalue  + ' value="View">View</button>\
+                                        <a href="' + urlRevalue + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                        </a>\
                                     </div>';
                     htmlString += '<hr class="m-0">\
                                     <div class="p-3  text-center">\
@@ -226,7 +261,9 @@ $(document).ready(function() {
                                     </div>';
                     htmlString += '<div class="align-items-center  d-flex  justify-content-between  pb-3">\
                                     <label>' + result.data + ' aliquots</label> &nbsp;\
-                                    <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlRobotRevalue + ' value="View">View</button>\
+                                    <a href="' + urlRobotRevalue + '" target="_blank">\
+                                        <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                    </a>\
                                 </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
@@ -257,11 +294,15 @@ $(document).ready(function() {
                     $('#tableHeader').html('Aliquot for transfering');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data[0] + ' aliquots pending for tranfer</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlTransfer + ' value="View">View</button>\
+                                        <a href="' + urlTransfer + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                        </a>\
                                     </div>\
                                     <div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data[1] + ' aliquots to receive</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlReceive  + ' value="View">View</button>\
+                                        <a href="' + urlReceive + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                        </a>\
                                     </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
@@ -299,7 +340,9 @@ $(document).ready(function() {
                     
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + label + '</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlView + ' value="View">View</button>\
+                                        <a href="' + urlView + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                        </a>\
                                     </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
@@ -336,7 +379,9 @@ $(document).ready(function() {
                     
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + label + '</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlView + ' value="Start Implant">Start Implant</button>\
+                                        <a href="' + urlView + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="Start Implant">Start Implant</button>\
+                                        </a>\
                                     </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
@@ -373,7 +418,9 @@ $(document).ready(function() {
                     
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + label + '</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlView + ' value="View">View</button>\
+                                        <a href="' + urlView + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="View">View</button>\
+                                        </a>\
                                     </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();
@@ -416,7 +463,9 @@ $(document).ready(function() {
                     label += ' for explant lite';
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + label + '</label> &nbsp;\
-                                        <button type="button" class="btn  btn-primary  btn-redirect" url=' + urlView + ' value="Start Explant">Start Explant</button>\
+                                        <a href="' + urlView + '" target="_blank">\
+                                            <button type="button" class="btn  btn-primary  btn-redirect" value="Start Explant">Start Explant</button>\
+                                        </a>\
                                     </div>';
                     $('#tableBody').html(htmlString);
                     startRedirectButtons();

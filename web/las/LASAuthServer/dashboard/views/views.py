@@ -2,18 +2,6 @@ from __init__ import *
 
 def home(request):
     try:
-        # name = request.user.username
-        # baseUrl = LASModule.objects.get(shortname='BBM').home_url + 'api/dhbd'
-        # # biobank/api/dhbd/aliquot_derivation/
-        # url = baseUrl + '/aliquot_derivation/' + name
-        # req = urllib2.Request(url)
-        # u = urllib2.urlopen(req)
-        # res=u.read()
-        # print 'res der ' + res
-
-        # if res == 'errore':
-        #     raise Exception('Error in get aliquot derivation')
-
         # test_string = res.replace('"[', '')
         # res = test_string.replace(']"', '')
         # test_string = res.replace(' ', '')
@@ -103,3 +91,37 @@ def home(request):
         print e
         variables = RequestContext(request, {'errore':True})
         return render_to_response('indexDashboard.html',variables)
+
+def loadData(request):
+    try:
+        name = request.user.username
+        baseUrl = LASModule.objects.get(shortname='BBM').home_url + 'api/dhbd'
+        # biobank/api/dhbd/aliquot_derivation/
+        url = baseUrl + '/aliquot_derivation/' + name
+        req = urllib2.Request(url)
+        u = urllib2.urlopen(req)
+        jResponse = json.load(u)
+        res=u.read()
+        if res == 'errore':
+            raise Exception('Error in get aliquot derivation')
+
+        print 'Json Response: ', jResponse
+        totRobot = 0
+        totNorm = 0
+        for robot in jResponse['dataRobot']:
+            totRobot = totRobot + robot
+        
+        for norm in jResponse['data']:
+            totNorm = totNorm + norm
+
+        totNorm = totNorm + totRobot
+
+        response_data = {}
+        response_data['data'] = 'Ok'
+        response_data['aliqDer'] = totNorm
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    except Exception, e:
+        print e
+        response_data = {}
+        response_data['data'] = 'error'
+        return HttpResponse(json.dumps(response_data), content_type="application/json")

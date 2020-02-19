@@ -7,112 +7,99 @@
 	<link rel="stylesheet" type="text/css" href="/lasauth_media/dashboard/css/dashboard.css" />
 
 	{% if not errore %}
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $(function(){
-                    $('#sortItem').sortable({
-                        placeholder: "ui-state-highlight", 
-                        helper:'clone',
-                        update: function (event, ui) {
-                            console.log('Update: ', event, ' - ', ui);
-                        }
-                    });
-                });
-            });
-        </script>
 
         <div class="px-5  py-3">
             <div class="pb-3  row">
                 <div class="col-lg-8">
-                    <div style="position: relative;" class="pb-3  row" id="sortItem">
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                    <div class="pb-3  row">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Aliquot Derivation </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn  btn-primary  btn-dashboard" id="aliqDer"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="aliqDer"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Aliquot Split </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn  btn-primary  btn-dashboard" id="aliqSplit"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="aliqSplit"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Slide Labelling </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="aliqSlideLab"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="aliqSlideLab"> Loading </button>
                                 </div>
                             </div>
                         </div>
                     <!-- </div>
 
                     <div class="row"> -->
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Slide Preparation </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="aliqSlidePrep"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="aliqSlidePrep"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Aliquot QC/QA </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="aliqQcQa"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="aliqQcQa"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Aliquot Transfer </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="aliqTransfer"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="aliqTransfer"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Implanted Mice </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="implantedMice"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="implantedMice"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Available Mice </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="availableMice"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="availableMice"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Mice Under Treatment </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="miceUnderTreatment"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="miceUnderTreatment"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Mice Explants </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="explantMice"> Load data </button>
+                                    <button class="btn  btn-dashboard  btn-warning" id="explantMice"> Loading </button>
                                 </div>
                             </div>
                         </div>
-                        <div style="position: relative;" class="col-md-4  pb-3  sortable">
+                        <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Collections </div>
                                 <div class="px-3  py-2  panel-body  text-center">
-                                    <button class="btn btn-primary  btn-dashboard" id="collections"> Load data </button>
+                                    <button class="btn btn-primary  btn-dashboard" id="collections"> Load graph </button>
                                 </div>
                             </div>
                         </div>
