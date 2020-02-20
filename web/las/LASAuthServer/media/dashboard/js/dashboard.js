@@ -13,10 +13,9 @@ function startRedirectButtons() {
     }
 };
 
-$(document).ready(function() {
-
+function loadAliqDer() {
     $.ajax({
-        'url' : '../load_data',
+        'url' : '../load_derived',
         'type' : 'GET',
         'dataType' : 'JSON',
         success(result, status) {
@@ -25,6 +24,105 @@ $(document).ready(function() {
                 $('#aliqDer').html(result.aliqDer);
                 $('#aliqDer').removeClass('btn-warning');
                 $('#aliqDer').addClass('btn-success');
+                console.log(result.data);
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+};
+
+$(document).ready(function() {
+
+    loadAliqDer();
+    
+    $('#reloadAliqDer').click(function() {
+        loadAliqDer();
+    });
+
+    $.ajax({
+        'url' : '../load_split',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#aliqSplit').html(result.aliqSplit);
+                $('#aliqSplit').removeClass('btn-warning');
+                $('#aliqSplit').addClass('btn-success');
+                console.log(result.data);
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+
+    $.ajax({
+        'url' : '../load_slide_lab',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#aliqSlideLab').html(result.aliqSlideLab);
+                $('#aliqSlideLab').removeClass('btn-warning');
+                $('#aliqSlideLab').addClass('btn-success');
+                console.log(result.data);
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+
+    $.ajax({
+        'url' : '../load_slide_prep',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#aliqSlidePrep').html(result.aliqSlidePrep);
+                $('#aliqSlidePrep').removeClass('btn-warning');
+                $('#aliqSlidePrep').addClass('btn-success');
+                console.log(result.data);
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+
+    $.ajax({
+        'url' : '../load_revalue',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#aliqQcQa').html(result.aliqRevalue);
+                $('#aliqQcQa').removeClass('btn-warning');
+                $('#aliqQcQa').addClass('btn-success');
+                console.log(result.data);
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+
+    $.ajax({
+        'url' : '../load_transfers',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#aliqTransfer').html(result.aliqTransfer);
+                $('#aliqTransfer').removeClass('btn-warning');
+                $('#aliqTransfer').addClass('btn-success');
                 console.log(result.data);
             }
         },
@@ -123,6 +221,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -166,6 +270,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -198,6 +308,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -230,6 +346,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -273,6 +395,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -312,6 +440,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -352,6 +486,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -391,6 +531,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -430,6 +576,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -475,6 +627,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -516,6 +674,12 @@ $(document).ready(function() {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
                 console.log('Ajax ERROR: ', error, ' - ', status);
+            },
+            complete(response, status) {
+                console.log('Ajax complete: ', response, ' - ', status);
+                document.querySelector('#tableHeader').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
