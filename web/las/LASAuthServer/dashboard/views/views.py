@@ -162,3 +162,25 @@ def loadTransfers(request):
         response_data['data'] = 'error'
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+def loadImplantedMice(request):
+    try:
+        name = request.user.username
+        baseUrl = LASModule.objects.get(shortname='XMM').home_url + 'api/dhbd'
+        # # xeno/api/dhbd/implanted_mice/
+        url = baseUrl + '/implanted_mice/' + name
+        req = urllib2.Request(url)
+        u = urllib2.urlopen(req)
+        jResponse = json.load(u)
+        res=u.read()
+        if res == 'errore':
+            raise Exception('Error in get aliquot transfer')
+
+        response_data = {}
+        response_data['data'] = 'Ok'
+        response_data['implantedMice'] = jResponse['data']
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    except Exception, e:
+        print e
+        response_data = {}
+        response_data['data'] = 'error'
+        return HttpResponse(json.dumps(response_data), content_type="application/json")

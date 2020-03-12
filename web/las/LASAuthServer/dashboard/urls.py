@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     (r'^load_slide_prep/$','dashboard.views.loadSlidePrep'),
     (r'^load_revalue/$','dashboard.views.loadRevalue'),
     (r'^load_transfers/$','dashboard.views.loadTransfers'),
+    (r'^load_implanted_mice/$','dashboard.views.loadImplantedMice')
 )

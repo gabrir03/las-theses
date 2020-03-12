@@ -33,14 +33,7 @@ function loadAliqDer() {
     });
 };
 
-$(document).ready(function() {
-
-    loadAliqDer();
-    
-    $('#reloadAliqDer').click(function() {
-        loadAliqDer();
-    });
-
+function loadAliqSplit() {
     $.ajax({
         'url' : '../load_split',
         'type' : 'GET',
@@ -58,7 +51,9 @@ $(document).ready(function() {
             console.log('Ajax ERROR: ', error, ' - ', status);
         }
     });
+};
 
+function loadSlideLab() {
     $.ajax({
         'url' : '../load_slide_lab',
         'type' : 'GET',
@@ -76,7 +71,9 @@ $(document).ready(function() {
             console.log('Ajax ERROR: ', error, ' - ', status);
         }
     });
+};
 
+function loadSlidePrep() {
     $.ajax({
         'url' : '../load_slide_prep',
         'type' : 'GET',
@@ -94,7 +91,9 @@ $(document).ready(function() {
             console.log('Ajax ERROR: ', error, ' - ', status);
         }
     });
+};
 
+function loadRevalue() {
     $.ajax({
         'url' : '../load_revalue',
         'type' : 'GET',
@@ -112,7 +111,9 @@ $(document).ready(function() {
             console.log('Ajax ERROR: ', error, ' - ', status);
         }
     });
+};
 
+function loadTransfers() {
     $.ajax({
         'url' : '../load_transfers',
         'type' : 'GET',
@@ -129,6 +130,86 @@ $(document).ready(function() {
         error(xhr, status, error) {
             console.log('Ajax ERROR: ', error, ' - ', status);
         }
+    });
+};
+
+function loadImplantedMice() {
+    $.ajax({
+        'url' : '../load_implanted_mice',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#implantedMice').html(result.implantedMice);
+                $('#implantedMice').removeClass('btn-warning');
+                $('#implantedMice').addClass('btn-success');
+                console.log(result.data);
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+};
+
+
+$(document).ready(function() {
+
+    loadAliqDer();
+    loadAliqSplit();
+    loadSlideLab();
+    loadSlidePrep();
+    loadRevalue();
+    loadTransfers();
+    loadImplantedMice();
+
+    $('#btnRefreshAll').click(function() {
+        $(".btn-loading").each(function() {
+            $(this).html('Loading');
+            $(this).removeClass('btn-success');
+            $(this).addClass('btn-warning');
+        });
+        loadAliqDer();
+        loadAliqSplit();
+        loadSlideLab();
+        loadSlidePrep();
+        loadRevalue();
+        loadTransfers();
+        loadImplantedMice();
+    });
+
+    
+    $('#reloadAliqDer').click(function() {
+        $('#refreshAliqDer').toggleClass("rotate");
+        $('#aliqDer').html('Loading');
+        $('#aliqDer').removeClass('btn-success');
+        $('#aliqDer').addClass('btn-warning');
+        loadAliqDer();
+    });
+
+    $('#reloadAliqSplit').click(function() {
+        loadAliqSplit();
+    });
+    
+    $('#reloadSlideLab').click(function() {
+        loadSlideLab();
+    });
+    
+    $('#reloadSlidePrep').click(function() {
+        loadSlidePrep();
+    });
+
+    $('#reloadRevalue').click(function() {
+        loadRevalue();
+    });
+
+    $('#reloadTransfer').click(function() {
+        loadTransfers();
+    });
+
+    $('#reloadImplantedMice').click(function() {
+        loadImplantedMice();
     });
 
     var base_url = '../../../biobank/api/dhbd';

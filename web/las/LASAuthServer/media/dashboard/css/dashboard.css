@@ -3,6 +3,24 @@
     min-width: 100px;
 }
 
+.fa.fa-refresh {
+    color: #1e90ff;
+    -moz-transition: all 2s linear;
+    -webkit-transition: all 2s linear;
+    transition: all 2s linear;
+}
+
+.fa.fa-refresh:hover {
+    color: #61b1ff;
+}
+
+.fa.fa-refresh.rotate{
+    -ms-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
 .panel {
     background-color: #fff;
     border: 1px solid transparent;
