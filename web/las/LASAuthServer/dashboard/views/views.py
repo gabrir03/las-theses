@@ -173,11 +173,83 @@ def loadImplantedMice(request):
         jResponse = json.load(u)
         res=u.read()
         if res == 'errore':
-            raise Exception('Error in get aliquot transfer')
+            raise Exception('Error in get implanted mice')
 
         response_data = {}
         response_data['data'] = 'Ok'
         response_data['implantedMice'] = jResponse['data']
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    except Exception, e:
+        print e
+        response_data = {}
+        response_data['data'] = 'error'
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+def loadAvailableMice(request):
+    try:
+        baseUrl = LASModule.objects.get(shortname='XMM').home_url + 'api/dhbd'
+        # # xeno/api/dhbd/available_mice
+        url = baseUrl + '/available_mice'
+        req = urllib2.Request(url)
+        u = urllib2.urlopen(req)
+        jResponse = json.load(u)
+        res=u.read()
+        if res == 'errore':
+            raise Exception('Error in get available mice')
+
+        response_data = {}
+        response_data['data'] = 'Ok'
+        response_data['availableMice'] = jResponse['data']
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    except Exception, e:
+        print e
+        response_data = {}
+        response_data['data'] = 'error'
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+def loadMiceUnderTreatment(request):
+    try:
+        name = request.user.username
+        baseUrl = LASModule.objects.get(shortname='XMM').home_url + 'api/dhbd'
+        # # xeno/api/dhbd/mice_under_treatment/name
+        url = baseUrl + '/mice_under_treatment/' + name
+        req = urllib2.Request(url)
+        u = urllib2.urlopen(req)
+        jResponse = json.load(u)
+        res=u.read()
+        if res == 'errore':
+            raise Exception('Error in get mice under treatment')
+
+        response_data = {}
+        response_data['data'] = 'Ok'
+        response_data['miceUnderTreatment'] = jResponse['data']
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    except Exception, e:
+        print e
+        response_data = {}
+        response_data['data'] = 'error'
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+def loadMiceExplants(request):
+    try:
+        name = request.user.username
+        baseUrl = LASModule.objects.get(shortname='XMM').home_url + 'api/dhbd'
+        # # xeno/api/dhbd/explant_mice/name
+        url = baseUrl + '/explant_mice/' + name
+        req = urllib2.Request(url)
+        u = urllib2.urlopen(req)
+        jResponse = json.load(u)
+        res=u.read()
+        if res == 'errore':
+            raise Exception('Error in get mice explants')
+
+        totMice = 0
+        for mouse in jResponse['data']:
+            totMice = totMice + mouse
+
+        response_data = {}
+        response_data['data'] = 'Ok'
+        response_data['miceExplants'] = totMice
         return HttpResponse(json.dumps(response_data), content_type="application/json")
     except Exception, e:
         print e

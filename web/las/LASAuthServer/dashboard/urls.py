@@ -9,5 +9,8 @@ urlpatterns = patterns('',
     (r'^load_slide_prep/$','dashboard.views.loadSlidePrep'),
     (r'^load_revalue/$','dashboard.views.loadRevalue'),
     (r'^load_transfers/$','dashboard.views.loadTransfers'),
-    (r'^load_implanted_mice/$','dashboard.views.loadImplantedMice')
+    (r'^load_implanted_mice/$','dashboard.views.loadImplantedMice'),
+    (r'^load_available_mice/$','dashboard.views.loadAvailableMice'),
+    (r'^load_mice_under_treatment/$','dashboard.views.loadMiceUnderTreatment'),
+    (r'^load_mice_explants/$','dashboard.views.loadMiceExplants')
 )

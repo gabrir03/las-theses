@@ -215,12 +215,21 @@ class CollectionsHandler(BaseHandler):
             res=u.read()
             result=json.loads(res)
 
+            myCollections = dict()
+            collectionVect = []
             resSet = []
             for x in result['body']: # Object
+                if x[3] in myCollections:
+                    myCollections[x[3]]['value'] = myCollections[x[3]]['value'] + 1
+                else:
+                    myCollections[x[3]] = {'type':x[3], 'value': 1}
                 resSet.append(x) # Vettore di collezioni
                 # print x[0] # CHC0001
             
-            return {'data':resSet}
+            for k in myCollections:
+                collectionVect.append(myCollections[k])
+            
+            return {'data':resSet, 'myCollections':collectionVect}
         except Exception, e:
             print 'error', e
             return {'data':'errore'}

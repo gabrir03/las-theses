@@ -62,13 +62,15 @@
         </script>
             <header>
                     
-                <h1 style="float:left;margin-top:16px;"> 
+		        <!-- <h1 style="float:left;"> <a id="home" href="{% url loginmanager.views.index %}"><img width="143px" height="46px" src="/lasauth_media/img/logo.PNG"></a> Laboratory Assistant Suite </h1> -->
+                <h1 style="float:left;">
                     <a id="home" href="{% url loginmanager.views.dashboardHome %}">
-                        <span style="font-size:18px;">Dashboard</span>
-                        <!-- <img width="143px" height="46px" src="/lasauth_media/img/logo.PNG">  -->
+                        <div class="d-flex  align-items-end">
+                            <img width="143px" height="46px" src="/lasauth_media/img/logo.PNG">
+                            <span style="font-size:18px; margin-left: 5px; margin-bottom: -5px;">Dashboard</span>
+                        </div>
                     </a>
                 </h1>
-                <!--  <h2> Tissues collection, storage and management </h2>  -->
                 
                 <p id="user_name" style="float:right;">
                     <span id="datename">{% now "jS F Y" %} |<a href="{% url loginmanager.views.index %}"> LAS Home </a>[{{  user.username  }}]</span>

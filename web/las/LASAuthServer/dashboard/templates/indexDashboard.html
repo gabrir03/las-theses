@@ -3,7 +3,8 @@
 {% block title %}Dashboard @ Laboratory Assistant Suite{% endblock %}
 
 {% block content %}
-	<script type="text/javascript" src="/lasauth_media/dashboard/js/dashboard.js"></script>
+    <script type="text/javascript" src="/lasauth_media/dashboard/js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<link rel="stylesheet" type="text/css" href="/lasauth_media/dashboard/css/dashboard.css" />
 
 	{% if not errore %}
@@ -37,7 +38,7 @@
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="text-right"><a id="reloadAliqSplit">
-                                    <i class="fa  fa-refresh  fa-2x  fa-fw" aria-hidden="true"></i>
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshAliqSplit" aria-hidden="true"></i>
                                 </a></div>
                                 <div class="pb-3  px-3  panel-heading  text-center"> Aliquot Split </div>
                                 <div class="px-3  py-2  panel-body  text-center">
@@ -48,7 +49,7 @@
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="text-right"><a id="reloadSlideLab">
-                                    <i class="fa  fa-refresh  fa-2x  fa-fw" aria-hidden="true"></i>
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshSlideLab" aria-hidden="true"></i>
                                 </a></div>
                                 <div class="pb-3  px-3  panel-heading  text-center"> Slide Labelling </div>
                                 <div class="px-3  py-2  panel-body  text-center">
@@ -62,7 +63,7 @@
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="text-right"><a id="reloadSlidePrep">
-                                    <i class="fa  fa-refresh  fa-2x  fa-fw" aria-hidden="true"></i>
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshSlidePrep" aria-hidden="true"></i>
                                 </a></div>
                                 <div class="pb-3  px-3  panel-heading  text-center"> Slide Preparation </div>
                                 <div class="px-3  py-2  panel-body  text-center">
@@ -73,7 +74,7 @@
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="text-right"><a id="reloadRevalue">
-                                    <i class="fa  fa-refresh  fa-2x  fa-fw" aria-hidden="true"></i>
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshRevalue" aria-hidden="true"></i>
                                 </a></div>
                                 <div class="pb-3  px-3  panel-heading  text-center"> Aliquot QC/QA </div>
                                 <div class="px-3  py-2  panel-body  text-center">
@@ -84,7 +85,7 @@
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="text-right"><a id="reloadTransfer">
-                                    <i class="fa  fa-refresh  fa-2x  fa-fw" aria-hidden="true"></i>
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshTransfer" aria-hidden="true"></i>
                                 </a></div>
                                 <div class="pb-3  px-3  panel-heading  text-center"> Aliquot Transfer </div>
                                 <div class="px-3  py-2  panel-body  text-center">
@@ -95,7 +96,7 @@
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
                                 <div class="text-right"><a id="reloadImplantedMice">
-                                    <i class="fa  fa-refresh  fa-2x  fa-fw" aria-hidden="true"></i>
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshImplantedMice" aria-hidden="true"></i>
                                 </a></div>
                                 <div class="pb-3  px-3  panel-heading  text-center"> Implanted Mice </div>
                                 <div class="px-3  py-2  panel-body  text-center">
@@ -105,7 +106,10 @@
                         </div>
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
-                                <div class="p-3  panel-heading  text-center"> Available Mice </div>
+                                <div class="text-right"><a id="reloadAvailableMice">
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshAvailableMice" aria-hidden="true"></i>
+                                </a></div>
+                                <div class="pb-3  px-3  panel-heading  text-center"> Available Mice </div>
                                 <div class="px-3  py-2  panel-body  text-center">
                                     <button class="btn  btn-dashboard  btn-warning  btn-loading" id="availableMice"> Loading </button>
                                 </div>
@@ -113,7 +117,10 @@
                         </div>
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
-                                <div class="p-3  panel-heading  text-center"> Mice Under Treatment </div>
+                                <div class="text-right"><a id="reloadMiceUnderTreatment">
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshMiceUnderTreatment" aria-hidden="true"></i>
+                                </a></div>
+                                <div class="pb-3  px-3  panel-heading  text-center"> Mice Under Treatment </div>
                                 <div class="px-3  py-2  panel-body  text-center">
                                     <button class="btn  btn-dashboard  btn-warning  btn-loading" id="miceUnderTreatment"> Loading </button>
                                 </div>
@@ -121,14 +128,17 @@
                         </div>
                         <div class="col-md-4  pb-3">
                             <div class="p-3  panel  panel-default">
-                                <div class="p-3  panel-heading  text-center"> Mice Explants </div>
+                                <div class="text-right"><a id="reloadMiceExplants">
+                                    <i class="fa  fa-refresh  fa-2x  fa-fw" id="refreshMiceExplants" aria-hidden="true"></i>
+                                </a></div>
+                                <div class="pb-3  px-3  panel-heading  text-center"> Mice Explants </div>
                                 <div class="px-3  py-2  panel-body  text-center">
                                     <button class="btn  btn-dashboard  btn-warning  btn-loading" id="explantMice"> Loading </button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4  pb-3">
-                            <div class="p-3  panel  panel-default">
+                            <div class="h-100  p-3  panel  panel-default">
                                 <div class="p-3  panel-heading  text-center"> Collections </div>
                                 <div class="px-3  py-2  panel-body  text-center">
                                     <button class="btn btn-primary  btn-dashboard" id="collections"> Load graph </button>
@@ -144,6 +154,9 @@
                         </div>
                         <hr class="m-0">
                         <div class="p-3  panel-body" id="tableBody"></div>
+                        <div class="p-3  panel-body" id="tableChart" style="display: none;">
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>

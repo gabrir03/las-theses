@@ -24,7 +24,6 @@ function loadAliqDer() {
                 $('#aliqDer').html(result.aliqDer);
                 $('#aliqDer').removeClass('btn-warning');
                 $('#aliqDer').addClass('btn-success');
-                console.log(result.data);
             }
         },
         error(xhr, status, error) {
@@ -44,7 +43,6 @@ function loadAliqSplit() {
                 $('#aliqSplit').html(result.aliqSplit);
                 $('#aliqSplit').removeClass('btn-warning');
                 $('#aliqSplit').addClass('btn-success');
-                console.log(result.data);
             }
         },
         error(xhr, status, error) {
@@ -64,7 +62,6 @@ function loadSlideLab() {
                 $('#aliqSlideLab').html(result.aliqSlideLab);
                 $('#aliqSlideLab').removeClass('btn-warning');
                 $('#aliqSlideLab').addClass('btn-success');
-                console.log(result.data);
             }
         },
         error(xhr, status, error) {
@@ -84,7 +81,6 @@ function loadSlidePrep() {
                 $('#aliqSlidePrep').html(result.aliqSlidePrep);
                 $('#aliqSlidePrep').removeClass('btn-warning');
                 $('#aliqSlidePrep').addClass('btn-success');
-                console.log(result.data);
             }
         },
         error(xhr, status, error) {
@@ -104,7 +100,6 @@ function loadRevalue() {
                 $('#aliqQcQa').html(result.aliqRevalue);
                 $('#aliqQcQa').removeClass('btn-warning');
                 $('#aliqQcQa').addClass('btn-success');
-                console.log(result.data);
             }
         },
         error(xhr, status, error) {
@@ -124,7 +119,6 @@ function loadTransfers() {
                 $('#aliqTransfer').html(result.aliqTransfer);
                 $('#aliqTransfer').removeClass('btn-warning');
                 $('#aliqTransfer').addClass('btn-success');
-                console.log(result.data);
             }
         },
         error(xhr, status, error) {
@@ -144,7 +138,6 @@ function loadImplantedMice() {
                 $('#implantedMice').html(result.implantedMice);
                 $('#implantedMice').removeClass('btn-warning');
                 $('#implantedMice').addClass('btn-success');
-                console.log(result.data);
             }
         },
         error(xhr, status, error) {
@@ -153,6 +146,77 @@ function loadImplantedMice() {
     });
 };
 
+function loadAvailableMice() {
+    $.ajax({
+        'url' : '../load_available_mice',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#availableMice').html(result.availableMice);
+                $('#availableMice').removeClass('btn-warning');
+                $('#availableMice').addClass('btn-success');
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+};
+
+function loadMiceUnderTreatment() {
+    $.ajax({
+        'url' : '../load_mice_under_treatment',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#miceUnderTreatment').html(result.miceUnderTreatment);
+                $('#miceUnderTreatment').removeClass('btn-warning');
+                $('#miceUnderTreatment').addClass('btn-success');
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+};
+
+function loadMiceExplants() {
+    $.ajax({
+        'url' : '../load_mice_explants',
+        'type' : 'GET',
+        'dataType' : 'JSON',
+        success(result, status) {
+            console.log('Ajax: ', result, ' - ', status);
+            if (result.data != 'errore') {
+                $('#explantMice').html(result.miceExplants);
+                $('#explantMice').removeClass('btn-warning');
+                $('#explantMice').addClass('btn-success');
+            }
+        },
+        error(xhr, status, error) {
+            console.log('Ajax ERROR: ', error, ' - ', status);
+        }
+    });
+};
+
+function show_chart() {
+    $('#tableBody').hide();
+    $('#tableChart').show();
+};
+
+function hide_chart() {
+    $('#tableBody').show();
+    $('#tableChart').hide();
+};
+
+function random_rgba() {
+    var o = Math.round, r = Math.random, s = 255;
+    return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+};
 
 $(document).ready(function() {
 
@@ -163,6 +227,9 @@ $(document).ready(function() {
     loadRevalue();
     loadTransfers();
     loadImplantedMice();
+    loadAvailableMice();
+    loadMiceUnderTreatment();
+    loadMiceExplants();
 
     $('#btnRefreshAll').click(function() {
         $(".btn-loading").each(function() {
@@ -170,6 +237,9 @@ $(document).ready(function() {
             $(this).removeClass('btn-success');
             $(this).addClass('btn-warning');
         });
+        $('#tableHeader').html('Select data to display');
+        $('#tableBody').html('');
+        hide_chart();
         loadAliqDer();
         loadAliqSplit();
         loadSlideLab();
@@ -177,6 +247,9 @@ $(document).ready(function() {
         loadRevalue();
         loadTransfers();
         loadImplantedMice();
+        loadAvailableMice();
+        loadMiceUnderTreatment();
+        loadMiceExplants();
     });
 
     
@@ -189,32 +262,121 @@ $(document).ready(function() {
     });
 
     $('#reloadAliqSplit').click(function() {
+        $('#refreshAliqSplit').toggleClass("rotate");
+        $('#aliqSplit').html('Loading');
+        $('#aliqSplit').removeClass('btn-success');
+        $('#aliqSplit').addClass('btn-warning');
         loadAliqSplit();
     });
     
     $('#reloadSlideLab').click(function() {
+        $('#refreshSlideLab').toggleClass("rotate");
+        $('#aliqSlideLab').html('Loading');
+        $('#aliqSlideLab').removeClass('btn-success');
+        $('#aliqSlideLab').addClass('btn-warning');
         loadSlideLab();
     });
     
     $('#reloadSlidePrep').click(function() {
+        $('#refreshSlidePrep').toggleClass("rotate");
+        $('#aliqSlidePrep').html('Loading');
+        $('#aliqSlidePrep').removeClass('btn-success');
+        $('#aliqSlidePrep').addClass('btn-warning');
         loadSlidePrep();
     });
 
     $('#reloadRevalue').click(function() {
+        $('#refreshRevalue').toggleClass("rotate");
+        $('#aliqQcQa').html('Loading');
+        $('#aliqQcQa').removeClass('btn-success');
+        $('#aliqQcQa').addClass('btn-warning');
         loadRevalue();
     });
 
     $('#reloadTransfer').click(function() {
+        $('#refreshTransfer').toggleClass("rotate");
+        $('#aliqTransfer').html('Loading');
+        $('#aliqTransfer').removeClass('btn-success');
+        $('#aliqTransfer').addClass('btn-warning');
         loadTransfers();
     });
 
     $('#reloadImplantedMice').click(function() {
+        $('#refreshImplantedMice').toggleClass("rotate");
+        $('#implantedMice').html('Loading');
+        $('#implantedMice').removeClass('btn-success');
+        $('#implantedMice').addClass('btn-warning');
         loadImplantedMice();
+    });
+
+    $('#reloadAvailableMice').click(function() {
+        $('#refreshAvailableMice').toggleClass("rotate");
+        $('#availableMice').html('Loading');
+        $('#availableMice').removeClass('btn-success');
+        $('#availableMice').addClass('btn-warning');
+        loadAvailableMice();
+    });
+
+    $('#reloadMiceUnderTreatment').click(function() {
+        $('#refreshMiceUnderTreatment').toggleClass("rotate");
+        $('#miceUnderTreatment').html('Loading');
+        $('#miceUnderTreatment').removeClass('btn-success');
+        $('#miceUnderTreatment').addClass('btn-warning');
+        loadMiceUnderTreatment();
+    });
+
+    $('#reloadMiceExplants').click(function() {
+        $('#refreshMiceExplants').toggleClass("rotate");
+        $('#explantMice').html('Loading');
+        $('#explantMice').removeClass('btn-success');
+        $('#explantMice').addClass('btn-warning');
+        loadMiceExplants();
     });
 
     var base_url = '../../../biobank/api/dhbd';
     var base_xeno_url = '../../../xeno/api/dhbd';
     var timer = null;
+    var chartCtx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(chartCtx, {
+        // The type of chart we want to create
+        type: 'pie',
+        // The data for our dataset
+        data: {
+            datasets: [{
+                data: [],
+                backgroundColor: []
+            }],
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: []
+        },
+        // // The data for our dataset
+        // data: {
+        //     datasets: [{
+        //         data: [10, 20, 30, 15],
+        //         backgroundColor: [
+        //           'rgb(255, 0, 0)',
+        //           'rgb(255, 255, 0)',
+        //           'rgb(0, 0, 255)',
+        //           'rgb(0, 100, 205)'
+        //         ]
+        //     }],
+        
+        //     // These labels appear in the legend and in the tooltips when hovering different arcs
+        //     labels: [
+        //         'Red',
+        //         'Yellow',
+        //         'Blue',
+        //         'Boo'
+        //     ]
+        // },
+        // Configuration options go here
+        options: {
+            cutoutPercentage: 0,
+            legend: {
+                position: 'right'
+            }
+        }
+    });
 
     $('#aliqDer').click(function() {
         timer = setTimeout(function(){$("body").addClass("loading");},100);
@@ -228,6 +390,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     $('#tableHeader').html('Aliquot derivation phases');
                     var htmlString = '';
                     var labelText = '';
@@ -304,7 +467,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -326,6 +488,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     $('#tableHeader').html('Aliquot to split');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
@@ -353,7 +516,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -374,6 +536,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     $('#tableHeader').html('Aliquot ready for slide labelling');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
@@ -391,7 +554,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -412,6 +574,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     $('#tableHeader').html('Aliquot ready for slide preparation');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
@@ -429,7 +592,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -451,6 +613,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     $('#tableHeader').html('Aliquot ready for performing QC/QA');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data + ' aliquots</label> &nbsp;\
@@ -478,7 +641,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -500,6 +662,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     $('#tableHeader').html('Aliquot for transfering');
                     var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
                                         <label>' + result.data[0] + ' aliquots pending for tranfer</label> &nbsp;\
@@ -523,7 +686,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -544,6 +706,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     var label = '';
                     if (result.data == 1) {
                         $('#tableHeader').html('Implanted Mouse');
@@ -569,7 +732,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -590,6 +752,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     var label = '';
                     $('#tableHeader').html('Available Mice');
                     if (result.data == 1) {
@@ -614,7 +777,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -635,6 +797,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     var label = '';
                     $('#tableHeader').html('Mice Under Treatment');
                     if (result.data == 1) {
@@ -659,7 +822,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -680,6 +842,7 @@ $(document).ready(function() {
                 $("body").removeClass("loading");
                 console.log('Ajax: ', result.data, ' - ', status);
                 if (result.data != 'errore') {
+                    hide_chart();
                     var label = '';
                     $('#tableHeader').html('Mice For Explant');
                     if (result.data[0] == 1) {
@@ -710,7 +873,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -728,26 +890,68 @@ $(document).ready(function() {
             success(result, status) {
                 clearTimeout(timer);
                 $("body").removeClass("loading");
-                console.log('Ajax: ', result.data, ' - ', status);
+                console.log('Ajax: ', result, ' - ', status);
                 if (result.data != 'errore') {
                     $('#tableHeader').html('Available Collections');
-                    var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
-                                        <label>' + result.data.length + ' collections</label>\
-                                    </div>';
-                    htmlString +=   '<div class="font-weight-bold  pb-3  row">\
-                                        <div class="col">Type</div>\
-                                        <div class="col">Code</div>\
-                                        <div class="col">Date</div>\
-                                    </div>';
-                    for (var i = 0; i < result.data.length; i++) {
-                        htmlString += '<div class="pb-2  row">\
-                                            <div class="col">' + result.data[i][3] + '</div>\
-                                            <div class="col">' + result.data[i][6] + '</div>\
-                                            <div class="col">' + result.data[i][7] + '</div>\
-                                        </div>';
+                    show_chart();
+                    var labelNames = [];
+                    var dataValues = [];
+                    var backgroundColors = [];
+                    // Generare un colore random per ogni collezione
+                    for (var i = 0; i < result.myCollections.length; i++) {
+                        labelNames.push(result.myCollections[i].type);
+                        dataValues.push(result.myCollections[i].value);
+                        backgroundColors.push(random_rgba());
                     }
-                    htmlString += '</div>';
-                    $('#tableBody').html(htmlString);
+                    chart.data.datasets.forEach((dataset) => {
+                        dataset.data = dataValues;
+                        dataset.backgroundColor = backgroundColors;
+                    });
+                    chart.data.labels = labelNames;
+                    chart.update();
+                    /** DATI CHART CLASSICO */
+                    // function addData(chart, label, data) {
+                    //     chart.data.labels.push(label);
+                    //     chart.data.datasets.forEach((dataset) => {
+                    //         dataset.data.push(data);
+                    //     });
+                    //     chart.update();
+                    // }
+                    // var chart = new Chart(chartCtx, {
+                    //     // The type of chart we want to create
+                    //     type: 'line',
+                    
+                    //     // The data for our dataset
+                    //     data: {
+                    //         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    //         datasets: [{
+                    //             label: 'My First dataset',
+                    //             backgroundColor: 'rgb(255, 99, 132)',
+                    //             borderColor: 'rgb(255, 99, 132)',
+                    //             data: [0, 10, 5, 2, 20, 30, 45]
+                    //         }]
+                    //     },
+                    
+                    //     // Configuration options go here
+                    //     options: {}
+                    // });
+                    // var htmlString = '<div class="align-items-center  d-flex  justify-content-between  py-3">\
+                    //                     <label>' + result.data.length + ' collections</label>\
+                    //                 </div>';
+                    // htmlString +=   '<div class="font-weight-bold  pb-3  row">\
+                    //                     <div class="col">Type</div>\
+                    //                     <div class="col">Code</div>\
+                    //                     <div class="col">Date</div>\
+                    //                 </div>';
+                    // for (var i = 0; i < result.data.length; i++) {
+                    //     htmlString += '<div class="pb-2  row">\
+                    //                         <div class="col">' + result.data[i][3] + '</div>\
+                    //                         <div class="col">' + result.data[i][6] + '</div>\
+                    //                         <div class="col">' + result.data[i][7] + '</div>\
+                    //                     </div>';
+                    // }
+                    // htmlString += '</div>';
+                    // $('#tableBody').html(htmlString);
                     startRedirectButtons();
                 }
             },
@@ -757,7 +961,6 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                console.log('Ajax complete: ', response, ' - ', status);
                 document.querySelector('#tableHeader').scrollIntoView({
                     behavior: 'smooth'
                 });
