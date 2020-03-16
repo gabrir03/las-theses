@@ -36,11 +36,12 @@ class AliquotDerivationHandler(BaseHandler):
             disable_graph()
             lista1=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&Q(loadQuantity=None)&Q(idKit=None)&Q(deleteTimestamp=None)).order_by('id')
             lista2=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idKit=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
-            lista3=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
-            lista4=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(initialDate=None)&Q(measurementExecuted=1)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
-            # Nel primo step vedro' sempre le stesse aliquote, sia robot che manuale
             featrobot=FeatureDerivation.objects.get(name='Robot')
             lisprotrobot=FeatureDerProtocol.objects.filter(idFeatureDerivation=featrobot).values_list('idDerProtocol',flat=True)
+            lista3=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(idDerivationProtocol__in=lisprotrobot)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            # lista3=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            lista4=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&~Q(idDerivationProtocol__in=lisprotrobot)&~Q(initialDate=None)&Q(measurementExecuted=1)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
+            # Nel primo step vedro' sempre le stesse aliquote, sia robot che manuale
             lista2Robot=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idDerivationProtocol__in=lisprotrobot)&Q(idKit=None)&~Q(loadQuantity=None)&~Q(initialDate=None)&Q(volumeOutcome=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
             lista3Robot=AliquotDerivationSchedule.objects.filter(Q(derivationExecuted=0)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idDerivationProtocol__in=lisprotrobot)&~Q(loadQuantity=None)&Q(measurementExecuted=0)&Q(deleteTimestamp=None)).order_by('validationTimestamp','initialDate','id')
             #prendo gli idplanrobot che mi servono per avere tutte le derivazioni, anche quelle fallite
@@ -53,37 +54,58 @@ class AliquotDerivationHandler(BaseHandler):
             lista4Robot=AliquotDerivationSchedule.objects.filter(Q(idPlanRobot__in=lisplanfin)&Q(Q(operator=nome)|Q(operator=''))&~Q(idDerivationProtocol=None)&Q(idDerivationProtocol__in=lisprotrobot)&Q(deleteTimestamp=None)).order_by('validationTimestamp')
             enable_graph()
 
+            #Devo rimuovere le eventuali aliquote esaurite
+            lista1Mod=[]
+            for aliq in lista1:
+                if aliq.idAliquot.availability==1:
+                    lista1Mod.append(aliq)
+
             liskitsi=[]
             for aliq in lista2:
                 if aliq.idDerivationProtocol.idKitType!=None:
-                    liskitsi.append(aliq)
-            
+                    if aliq.idAliquot.availability==1:
+                        liskitsi.append(aliq)
+
             liskitsiRobot=[]
             for aliq in lista2Robot:
                 if aliq.idDerivationProtocol.idKitType!=None:
-                    liskitsiRobot.append(aliq)
-            
+                    if aliq.idAliquot.availability==1:
+                        liskitsiRobot.append(aliq)
+
             #devo filtrare ancora per togliere quelli che non hanno un kit, ma che dovrebbero averlo
             lisfin=[]
             for aliq in lista3:
                 if aliq.idKit!=None or aliq.idDerivationProtocol.idKitType==None:
-                    lisfin.append(aliq)
-                    
+                    if aliq.idAliquot.availability==1:
+                        lisfin.append(aliq)
+
             lisfinRobot=[]
             for aliq in lista3Robot:
                 if aliq.idKit!=None or aliq.idDerivationProtocol.idKitType==None:
-                    lisfinRobot.append(aliq)
-            
+                    if aliq.idAliquot.availability==1:
+                        lisfinRobot.append(aliq)
+
+            #Devo rimuovere le eventuali aliquote esaurite
+            lista4Mod=[]
+            for aliq in lista4:
+                if aliq.idAliquot.availability==1:
+                    lista4Mod.append(aliq)
+
+            lista4RobotMod=[]
+            for aliq in lista4Robot:
+                if aliq.idAliquot.availability==1:
+                    lista4RobotMod.append(aliq)
+
             liste = []
-            liste.append(len(lista1))
+            liste.append(len(lista1Mod))
             liste.append(len(liskitsi))
             liste.append(len(lisfin))
-            liste.append(len(lista4))
+            liste.append(len(lista4Mod))
 
             listeRobot = []
             listeRobot.append(len(liskitsiRobot))
             listeRobot.append(len(lisfinRobot))
-            listeRobot.append(len(lista4Robot))
+            listeRobot.append(len(lista4RobotMod))
             # return json.dumps(liste)
             return {'data':liste, 'dataRobot':listeRobot}
         except Exception, e:
@@ -122,7 +144,14 @@ class AliquotSplitHandler(BaseHandler):
 
             # return json.dumps(len(resSet))
             # return {'data':len(resSet)}
-            return {'data':len(lista)}
+
+            #Devo rimuovere le eventuali aliquote esaurite
+            listaMod=[]
+            for aliq in lista:
+                if aliq.idAliquot.availability==1:
+                    listaMod.append(aliq)
+
+            return {'data':len(listaMod)}
         except Exception, e:
             print 'err',e
             return {'data':'errore'}
@@ -137,8 +166,15 @@ class AliquotSlideLabHandler(BaseHandler):
             disable_graph()
             lista=AliquotLabelSchedule.objects.filter(Q(executed=0)&Q(fileInserted=0)&Q(Q(operator=operat)|Q(operator=None))&Q(deleteTimestamp=None))
             enable_graph()
+
+            #Devo rimuovere le eventuali aliquote esaurite
+            listaMod=[]
+            for aliq in lista:
+                if aliq.idAliquot.availability==1:
+                    listaMod.append(aliq)
+
             # return json.dumps(len(lista))
-            return {'data':len(lista)}
+            return {'data':len(listaMod)}
         except Exception, e:
             print 'error', e
             return {'data':'errore'}
@@ -153,8 +189,15 @@ class AliquotSlidePrepHandler(BaseHandler):
             disable_graph()
             lista=AliquotSlideSchedule.objects.filter(Q(executed=0)&Q(Q(operator=operatore)|Q(operator=None))&Q(deleteTimestamp=None))
             enable_graph()
+
+            #Devo rimuovere le eventuali aliquote esaurite
+            listaMod=[]
+            for aliq in lista:
+                if aliq.idAliquot.availability==1:
+                    listaMod.append(aliq)
+
             # return json.dumps(len(lista))
-            return {'data':len(lista)}
+            return {'data':len(listaMod)}
         except Exception, e:
             print 'error', e
             return {'data':'errore'}
@@ -169,8 +212,15 @@ class AliquotRevalueHandler(BaseHandler):
             # Query con accesso alla tabella collegata (QualitySchedule) e selezione dell'utente corretto
             lista=AliquotQualitySchedule.objects.filter(revaluationExecuted=0, deleteTimestamp=None, idQualitySchedule__operator=nome)
             enable_graph()
+
+            #Devo rimuovere le eventuali aliquote esaurite
+            listaMod=[]
+            for aliq in lista:
+                if aliq.idAliquot.availability==1:
+                    listaMod.append(aliq)
+
             # return json.dumps(len(lista))
-            return {'data':len(lista)}
+            return {'data':len(listaMod)}
         except Exception, e:
             print 'error', e
             return {'data':'errore'}
@@ -185,9 +235,18 @@ class AliquotTransferHandler(BaseHandler):
             disable_graph()
             transfer_list = Transfer.objects.filter(Q(Q(operator=operatore)|Q(operator=None))&Q(deleteOperator=None)&Q(departureExecuted=0))
             receive_list = Transfer.objects.filter(addressTo=operatore,deleteOperator=None,departureExecuted=1,deliveryExecuted=0)
+
+            #Devo rimuovere le eventuali aliquote esaurite
+            listaTransferMod=[]
+            for aliq in transfer_list:
+                listaAliq = AliquotTransferSchedule.objects.filter(idTransfer=aliq.id)
+                for tran_sched in listaAliq:
+                    if tran_sched.idAliquot.availability==1:
+                        listaTransferMod.append(aliq)
+
             enable_graph()
             lista = []
-            lista.append(len(transfer_list))
+            lista.append(len(listaTransferMod))
             lista.append(len(receive_list))
             # return json.dumps(lista)
             return {'data':lista}

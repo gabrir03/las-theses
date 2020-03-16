@@ -218,7 +218,24 @@ function random_rgba() {
     return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
 };
 
+//Get the button:
+goTopButton = document.getElementById("btnGoTop");
+
 $(document).ready(function() {
+
+    $('#btnGoTop').click(function() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            $('#btnGoTop').css('display', 'block');
+        } else {
+            $('#btnGoTop').css('display', 'none');
+        }
+    };
 
     loadAliqDer();
     loadAliqSplit();
