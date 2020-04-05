@@ -225,7 +225,10 @@ $(document).ready(function() {
 
     $('#btnGoTop').click(function() {
         document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        document.documentElement.scrollIntoView({
+            behavior: 'smooth'
+        });
     });
 
     // When the user scrolls down 20px from the top of the document, show the button
@@ -484,9 +487,12 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                // Applico lo scroll down solo se la view è cambiata
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -533,9 +539,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -571,9 +579,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -609,9 +619,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -658,9 +670,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -703,9 +717,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -749,9 +765,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -794,9 +812,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -839,9 +859,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -890,9 +912,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -978,9 +1002,11 @@ $(document).ready(function() {
                 console.log('Ajax ERROR: ', error, ' - ', status);
             },
             complete(response, status) {
-                document.querySelector('#tableHeader').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth < 1200) {
+                    document.querySelector('#tableHeader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
