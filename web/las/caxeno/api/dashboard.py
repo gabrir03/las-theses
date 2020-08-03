@@ -52,8 +52,9 @@ class AvailableMiceHandler(BaseHandler):
     @method_decorator(get_functionality_decorator)
     def read(self, request):
         try:
+            filter_list = Status.objects.filter(name__in = ['implanted', 'experimental', 'transferred'])
             disable_graph()
-            mice_list = Mice.objects.exclude(id__in = BioMice.objects.all().values_list('phys_mouse_id'))
+            mice_list = Mice.objects.filter(id_status__in = filter_list).values_list('id')
             enable_graph()
             return {'data':len(mice_list)}
         except Exception, e:
